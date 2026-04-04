@@ -1,21 +1,42 @@
-# shadcn/ui monorepo template
+# Next.js & HeroUI Template
 
-This is a Next.js monorepo template with shadcn/ui.
+This is a template for creating applications using Next.js 15 (app directory) and HeroUI (v3).
 
-## Adding components
+[Try it on CodeSandbox](https://githubbox.com/heroui-inc/heroui/next-app-template)
 
-To add components to your app, run the following command at the root of your `web` app:
+## Technologies Used
+
+- [Next.js 15](https://nextjs.org/docs/getting-started)
+- [HeroUI v3](https://heroui.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Tailwind Variants](https://tailwind-variants.org)
+- [TypeScript](https://www.typescriptlang.org/)
+- [next-themes](https://github.com/pacocoursey/next-themes)
+
+## How to Use
+
+### Use the template with create-next-app
+
+To create a new project based on this template using `create-next-app`, run the following command:
 
 ```bash
-pnpm dlx shadcn@latest add button -c apps/web
+npx create-next-app -e https://github.com/heroui-inc/next-app-template
 ```
 
-This will place the ui components in the `packages/ui/src/components` directory.
+### Install dependencies
 
-## Using components
+You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
 
-To use the components in your app, import them from the `ui` package.
-
-```tsx
-import { Button } from "@workspace/ui/components/button";
+```bash
+npm install
 ```
+
+### Run the development server
+
+```bash
+npm run dev
+```
+
+## License
+
+Licensed under the [MIT license](https://github.com/heroui-inc/next-app-template/blob/main/LICENSE).
