@@ -1,16 +1,32 @@
-import { IconSvgProps } from '@/types';
+import {IconSvgProps} from '@/types';
 import {Icon} from './design-system/Icon';
 
-export const Logo: React.FC<IconSvgProps> = ({ size = 36, width, height, ...props }) => (
-  <Icon size={size} src='/icons/logo.svg'/>
+export const Logo: React.FC<IconSvgProps>=({size=36,width,height,...props}) => (
+  <Icon size={size} src='/icons/logo.svg' />
 );
 
-export const DiscordIcon: React.FC<IconSvgProps> = ({ size = 24, width, height, ...props }) => {
+export const MenuIcon: React.FC<IconSvgProps>=({size=24,width,height,...props}) => {
+  return (<svg
+    className='h-6 w-6'
+    fill='none'
+    stroke='currentColor'
+    viewBox='0 0 24 24'
+  >
+    <path
+      d='M4 6h16M4 12h16M4 18h16'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      strokeWidth={2}
+    />
+  </svg>)
+}
+
+export const DiscordIcon: React.FC<IconSvgProps>=({size=24,width,height,...props}) => {
   return (
     <svg
-      height={size || height}
+      height={size||height}
       viewBox='0 0 24 24'
-      width={size || width}
+      width={size||width}
       {...props}
     >
       <path
@@ -21,12 +37,12 @@ export const DiscordIcon: React.FC<IconSvgProps> = ({ size = 24, width, height, 
   );
 };
 
-export const TwitterIcon: React.FC<IconSvgProps> = ({ size = 24, width, height, ...props }) => {
+export const TwitterIcon: React.FC<IconSvgProps>=({size=24,width,height,...props}) => {
   return (
     <svg
-      height={size || height}
+      height={size||height}
       viewBox='0 0 24 24'
-      width={size || width}
+      width={size||width}
       {...props}
     >
       <path
@@ -37,12 +53,12 @@ export const TwitterIcon: React.FC<IconSvgProps> = ({ size = 24, width, height, 
   );
 };
 
-export const GithubIcon: React.FC<IconSvgProps> = ({ size = 24, width, height, ...props }) => {
+export const GithubIcon: React.FC<IconSvgProps>=({size=24,width,height,...props}) => {
   return (
     <svg
-      height={size || height}
+      height={size||height}
       viewBox='0 0 24 24'
-      width={size || width}
+      width={size||width}
       {...props}
     >
       <path
@@ -55,14 +71,14 @@ export const GithubIcon: React.FC<IconSvgProps> = ({ size = 24, width, height, .
   );
 };
 
-export const MoonFilledIcon = ({ size = 24, width, height, ...props }: IconSvgProps) => (
+export const MoonFilledIcon=({size=24,width,height,...props}: IconSvgProps) => (
   <svg
     aria-hidden='true'
     focusable='false'
-    height={size || height}
+    height={size||height}
     role='presentation'
     viewBox='0 0 24 24'
-    width={size || width}
+    width={size||width}
     {...props}
   >
     <path
@@ -72,14 +88,14 @@ export const MoonFilledIcon = ({ size = 24, width, height, ...props }: IconSvgPr
   </svg>
 );
 
-export const SunFilledIcon = ({ size = 24, width, height, ...props }: IconSvgProps) => (
+export const SunFilledIcon=({size=24,width,height,...props}: IconSvgProps) => (
   <svg
     aria-hidden='true'
     focusable='false'
-    height={size || height}
+    height={size||height}
     role='presentation'
     viewBox='0 0 24 24'
-    width={size || width}
+    width={size||width}
     {...props}
   >
     <g fill='currentColor'>
@@ -89,14 +105,14 @@ export const SunFilledIcon = ({ size = 24, width, height, ...props }: IconSvgPro
   </svg>
 );
 
-export const HeartFilledIcon = ({ size = 24, width, height, ...props }: IconSvgProps) => (
+export const HeartFilledIcon=({size=24,width,height,...props}: IconSvgProps) => (
   <svg
     aria-hidden='true'
     focusable='false'
-    height={size || height}
+    height={size||height}
     role='presentation'
     viewBox='0 0 24 24'
-    width={size || width}
+    width={size||width}
     {...props}
   >
     <path
@@ -109,7 +125,7 @@ export const HeartFilledIcon = ({ size = 24, width, height, ...props }: IconSvgP
   </svg>
 );
 
-export const SearchIcon = (props: IconSvgProps) => (
+export const SearchIcon=(props: IconSvgProps) => (
   <svg
     aria-hidden='true'
     fill='none'

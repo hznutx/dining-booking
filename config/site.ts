@@ -1,10 +1,11 @@
-import { FaPhoneVolume } from 'react-icons/fa6';
+import { FaPhoneVolume } from 'react-icons/fa6'
 
-export type ISiteConfig = typeof siteConfig;
+export type ISiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: 'EndCost',
-  description: 'เครื่องมือคำนวณต้นทุนรวมและกระจายค่าใช้จ่ายในระยะยาว ช่วยสรุปยอดใช้จ่ายทั้งหมด คำนวณต้นทุนเฉลี่ยต่อวัน และประเมินระยะเวลาหนี้ได้อย่างรวดเร็ว ใช้งานง่าย เหมาะสำหรับวางแผนการเงินและควบคุมงบประมาณให้มีประสิทธิภาพ',
+  name: 'Booking Dinner with Gelato',
+  siteName: 'GELATO',
+  description: 'Booking your next precious dinner in Italy with Gelato',
   navItems: [
     {
       key: 'percent_of',
@@ -36,4 +37,4 @@ export const siteConfig = {
     twitter: 'https://github.com/hznutx',
     sponsor: 'https://i.ibb.co/8LhJnyht/image0.jpg',
   },
-};
+}

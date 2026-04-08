@@ -1,88 +1,119 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { Button, Link } from '@heroui/react';
-import NextLink from 'next/link';
-import clsx from 'clsx';
+import { useState } from 'react'
+import { CloseButton, Link, Separator } from '@heroui/react'
+import NextLink from 'next/link'
+import clsx from 'clsx'
 
-import { siteConfig } from '@/config/site';
-import { ThemeSwitch } from '@/components/theme-switch';
-import { TwitterIcon, HeartFilledIcon, Logo } from '@/components/icons';
-import LanguageSwitcher from './i18n';
-import ProfileAccount from './design-system/ProfileAccount';
+import { siteConfig } from '@/config/site'
+import { ThemeSwitch } from '@/components/theme-switch'
+import { Logo, MenuIcon } from '@/components/icons'
+import LanguageSwitcher from './i18n'
+import ProfileAccount from './design-system/ProfileAccount'
+import { SearchBar } from './design-system/SearchBar'
 
-export const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const LogoBrand = () => {
+  return (
+    <NextLink className="flex items-center space-x-2" href="/">
+      <Logo size={26} />
+      <h4 className="text-xl font-semibold">{siteConfig.siteName}</h4>
+    </NextLink>
+  )
+}
+
+const guestMenu = [
+  {
+    label: 'Create Free Account',
+    href: '#',
+  },
+  {
+    label: 'Login',
+    href: '/login',
+  },
+]
+
+export const UserMenu = () => {
+  const getUser = () => true
+  const styleLabel = 'text-base transition-all duration-200 hover:text-gray-400'
 
   return (
-    <nav className='sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg'>
-      <header className='mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-4 px-6'>
-        <div className='flex items-center gap-4'>
-          <NextLink
-            className='flex items-center gap-1'
-            href='/'
+    <>
+      {getUser() ? (
+        <div className="flex items-center space-x-4">
+          <a
+            key={guestMenu[0].label}
+            href={guestMenu[0].href}
+            className={styleLabel}
           >
-            <Logo size={28}/>
-            <h4 className='text-2xl font-bold'>Gelato</h4>
-          </NextLink>
+            {guestMenu[0].label}
+          </a>
+          <Separator orientation="vertical" />
+          <a
+            key={guestMenu[1].label}
+            href={guestMenu[1].href}
+            className={styleLabel}
+          >
+            {guestMenu[1].label}
+          </a>
         </div>
+      ) : (
+        <ProfileAccount />
+      )}
+    </>
+  )
+}
 
-        <div className='hidden sm:flex items-center gap-2'>
-          <Link
-            aria-label='Twitter'
-            href={siteConfig.links.twitter}
-            rel='noopener noreferrer'
-            target='_blank'
-          >
-            <TwitterIcon className='text-muted' />
-          </Link>
-          <ThemeSwitch />
-          <ProfileAccount  />
-          <LanguageSwitcher />
-        </div>
+export const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-        <div className='flex sm:hidden items-center gap-2'>
-          <ThemeSwitch />
-          <button
-            aria-expanded={isMenuOpen}
-            aria-label='Toggle menu'
-            className='p-2'
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <svg
-              className='h-6 w-6'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-            >
-              {isMenuOpen ? (
-                <path
-                  d='M6 18L18 6M6 6l12 12'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                />
-              ) : (
-                <path
-                  d='M4 6h16M4 12h16M4 18h16'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                />
-              )}
-            </svg>
-          </button>
+  return (
+    <nav>
+      <header className="bg-background top-0 z-[150] w-screen backdrop-blur-lg">
+        <div className="container mx-auto max-w-7xl px-4">
+          <div className="flex h-16 items-center justify-between lg:h-[72px]">
+            <LogoBrand />
+            <div className="flex items-center">
+              <div className="mr-5 hidden items-center space-x-5 lg:flex">
+                <SearchBar />
+                <UserMenu />
+                <LanguageSwitcher />
+              </div>
+              <button
+                aria-expanded={isMenuOpen}
+                aria-label="Toggle menu"
+                className="order-2 flex cursor-pointer p-2 lg:hidden"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                <MenuIcon />
+              </button>
+              <ThemeSwitch className="order-1 lg:order-2" />
+            </div>
+          </div>
         </div>
       </header>
 
       {isMenuOpen && (
-        <div className='border-t border-separator sm:hidden'>
-          <ul className='flex flex-col gap-2 px-4 pb-4'>
+        <div className="bg-background/70 fixed inset-0 z-[200] h-screen px-4 backdrop-blur-lg lg:hidden">
+          <div className="flex h-16 w-full items-center justify-between">
+            <LogoBrand />
+            <CloseButton
+              onClick={() => setIsMenuOpen(false)}
+              className="bg-transparent p-2"
+            />
+          </div>
+          <ul className="flex flex-col gap-2 px-4 pt-10 pb-4">
             {siteConfig.navItems.map((item, index) => (
               <li key={`${index}`}>
                 <Link
-                  className={clsx('block py-2 text-lg no-underline', index === 2 ? 'text-accent' : index === siteConfig.navItems.length - 1 ? 'text-danger' : 'text-foreground')}
-                  href='#'
+                  className={clsx(
+                    'block py-2 text-lg no-underline',
+                    index === 2
+                      ? 'text-accent'
+                      : index === siteConfig.navItems.length - 1
+                        ? 'text-danger'
+                        : 'text-foreground',
+                  )}
+                  href="#"
                 >
                   {item.key}
                 </Link>
@@ -92,5 +123,5 @@ export const Navbar = () => {
         </div>
       )}
     </nav>
-  );
-};
+  )
+}

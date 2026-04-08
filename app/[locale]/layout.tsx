@@ -55,7 +55,7 @@ export default async function LocaleLayout({ children, params }: any) {
           <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
             <div className='relative'>
               <Navbar />
-              <main className={clsx(prompt.className, 'container mx-auto max-w-7xl p-6 flex-grow')}>{children}</main>
+              <main className={clsx(prompt.className, 'flex-1')}>{children}</main>
             </div>
             <Footer/>
           </Providers>
