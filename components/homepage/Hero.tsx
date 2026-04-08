@@ -16,9 +16,8 @@ const heroData = {
     { label: 'Family', href: '#' },
   ],
   images: {
-    desktop:
-      'https://i.ibb.co/sJ2Wdy8D/sandwich-with-poached-egg-fried-ham-cream-cheese-garnished-with-basil-leaves.jpg',
-    mobile: 'https://i.ibb.co/FC3zZNf/view-delicious-steak-dish.jpg',
+    desktop: '/hero.jpg',
+    mobile: '/hero_mb.jpg',
   },
 }
 
