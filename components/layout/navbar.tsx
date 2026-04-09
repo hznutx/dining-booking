@@ -8,32 +8,42 @@ import clsx from 'clsx'
 import { siteConfig } from '@/config/site'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { Logo, MenuIcon } from '@/components/icons'
-import LanguageSwitcher from './i18n'
-import ProfileAccount from './design-system/ProfileAccount'
-import { SearchBar } from './design-system/SearchBar'
+import LanguageSwitcher from '../i18n'
+import ProfileAccount from '../design-system/ProfileAccount'
+import { SearchBar } from '../design-system/SearchBar'
+import { useTranslations } from 'next-intl'
 
 const LogoBrand = () => {
   return (
     <NextLink className="flex items-center space-x-2" href="/">
       <Logo size={26} />
-      <h4 className="text-xl font-semibold">{siteConfig.siteName}</h4>
+      <h4 style={{ letterSpacing: 1 }} className="text-xl font-semibold">
+        {siteConfig.siteName}
+      </h4>
     </NextLink>
   )
 }
 
-const guestMenu = [
-  {
-    label: 'Create Free Account',
-    href: '#',
-  },
-  {
-    label: 'Login',
-    href: '/login',
-  },
-]
+export const getUserMenu = () => {
+  const t = useTranslations()
+
+  const guestMenu = [
+    {
+      label: t('navbar.signup'),
+      href: '#',
+    },
+    {
+      label: t('navbar.login'),
+      href: '/login',
+    },
+  ]
+
+  return guestMenu
+}
 
 export const UserMenu = () => {
   const getUser = () => true
+  const guestMenu = getUserMenu()
   const styleLabel = 'text-base transition-all duration-200 hover:text-gray-400'
 
   return (

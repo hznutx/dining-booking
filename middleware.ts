@@ -1,28 +1,43 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-const locales = ['en', 'th'];
-const defaultLocale = 'en';
+const locales = ['en', 'th']
+const defaultLocale = 'en'
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname } = request.nextUrl
 
-  if (pathname.startsWith('/_next') || pathname.startsWith('/api') || pathname.includes('.')) {
-    return NextResponse.next();
+  if (
+    pathname.startsWith('/auth/callback') ||
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.includes('.')
+  ) {
+    return NextResponse.next()
   }
 
-  const hasLocale = locales.some((locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`));
+  const hasLocale = locales.some(
+    (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
+  )
+
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-pathname', pathname)
 
   if (hasLocale) {
-    return NextResponse.next();
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    })
   }
 
-  const url = request.nextUrl.clone();
-  url.pathname = pathname === '/' ? `/${defaultLocale}` : `/${defaultLocale}${pathname}`;
+  const url = request.nextUrl.clone()
+  url.pathname =
+    pathname === '/' ? `/${defaultLocale}` : `/${defaultLocale}${pathname}`
 
-  return NextResponse.redirect(url);
+  return NextResponse.redirect(url)
 }
 
 export const config = {
   matcher: ['/((?!_next|api|.*\\..*).*)'],
-};
+}

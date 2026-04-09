@@ -1,4 +1,3 @@
-import { Logo } from '../icons'
 import { FaTwitter, FaFacebookF, FaInstagram, FaTiktok } from 'react-icons/fa'
 
 const credit = ''

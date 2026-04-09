@@ -1,18 +1,22 @@
 {
-  "menu": { "percent_of": "% Of", "angel_number": "Phone Number" },
-  "features": {
-    "cost": {
-      "currency": "Currency",
-      "item": "Item",
-      "price": "Price",
-      "daily_cost": "Cost per day",
-      "or": "or",
-      "uses_day": "Uses Day",
-      "debt": "Debt",
-      "price_after": "'Price after debt'"
-    }
+  "menu": {
+    "percent_of": "% Of",
+    "angel_number": "Phone Number"
   },
   "hero": {
-    "title": "Cost Calculator"
+    "title": "Discover and reserve the best dining experiences in your city",
+    "subtitle": "Summer hot deals 30% with `Promo99`",
+    "label": "Start booking",
+    "categories": {
+      "all": "All Restaurants",
+      "dining": "Fine Dining",
+      "cafe": "Cafés",
+      "buffet": "Buffet",
+      "family": "Family"
+    }
+  },
+  "navbar": {
+    "signup": "Create Free Account",
+    "login": "Login"
   }
 }

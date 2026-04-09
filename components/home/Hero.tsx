@@ -1,39 +1,51 @@
+'use client'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-
-const heroData = {
-  title: 'Discover and reserve the best dining experiences in your city',
-  subtitle: 'Summer hot deals 30% with `Promo99`',
-  cta: {
-    label: 'Start booking',
-    href: '#',
-  },
-  categories: [
-    { label: 'All Restaurants', href: '#' },
-    { label: 'Fine Dining', href: '#' },
-    { label: 'Casual', href: '#' },
-    { label: 'Cafés', href: '#' },
-    { label: 'Buffet', href: '#' },
-    { label: 'Family', href: '#' },
-  ],
-  images: {
-    desktop: '/hero.jpg',
-    mobile: '/hero_mb.jpg',
-  },
-}
+import { useState } from 'react'
 
 export const Hero = () => {
+  const t = useTranslations()
+
+  const heroData = {
+    title: t('hero.title'),
+    subtitle: t('hero.subtitle'),
+    cta: {
+      label: t('hero.label'),
+      href: '#',
+    },
+    categories: [
+      { label: t('hero.categories.all'), href: '#' },
+      { label: t('hero.categories.dining'), href: '#' },
+      { label: t('hero.categories.cafe'), href: '#' },
+      { label: t('hero.categories.buffet'), href: '#' },
+      { label: t('hero.categories.family'), href: '#' },
+    ],
+    images: {
+      desktop: '/hero.jpg',
+      mobile: '/hero_mb.jpg',
+    },
+  }
+
+  const [isLoading, setIsLoading] = useState(true)
+
   return (
     <section className="relative">
       <div className="absolute inset-0 hidden h-[calc(100vh-72px)] bg-black lg:block">
+        {isLoading && (
+          <div className="absolute inset-0 z-30 flex items-center justify-center bg-white/60 backdrop-blur-sm">
+            <div className="h-full w-full animate-pulse bg-black" />
+          </div>
+        )}
         <Image
           loading="eager"
           fill
+          onLoadingComplete={() => setIsLoading(false)}
           className="w-full object-cover object-bottom-right opacity-80"
           src={heroData.images.desktop}
           alt=""
         />
       </div>
-      <div className="relative z-50 pt-12 sm:pt-16 lg:py-36 xl:py-48">
+      <div className="relative z-50 pt-12 sm:pt-16 lg:pt-36 xl:pt-48">
         <div className="absolute inset-x-0 top-0 hidden lg:block">
           <div className="py-5">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -72,10 +84,16 @@ export const Hero = () => {
         </div>
       </div>
       <div className="h-[calc(100vh-72px)] lg:hidden">
+        {isLoading && (
+          <div className="absolute inset-0 z-30 flex items-center justify-center bg-white/60 backdrop-blur-sm">
+            <div className="h-full w-full animate-pulse bg-black" />
+          </div>
+        )}
         <div className="absolute inset-0 z-[40] h-full bg-black/40" />
         <Image
           loading="eager"
           fill
+          onLoadingComplete={() => setIsLoading(false)}
           className="w-full object-cover object-bottom"
           src={heroData.images.mobile}
           alt=""
