@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { Button, Card, Input, Spinner, toast } from '@heroui/react'
-import { supabase } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
-import { GithubIcon } from '@/components/icons'
 import { Icon } from '../design-system/Icon'
+import { supabase } from '@/utils/supabase/client'
 
 export default function FormLogin() {
   const [mode, setMode] = useState<'login' | 'register' | 'active' | undefined>(
@@ -115,16 +114,8 @@ export default function FormLogin() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <Spinner />
-      </div>
-    )
-  }
-
   return (
-    <div className="container flex h-screen max-w-7xl items-center justify-center">
+    <div className="mx-auto flex h-screen w-full items-center justify-center">
       <Card style={{ width: 400 }}>
         <div>
           <form onSubmit={onSubmit} className="w-full space-y-8 p-6">
@@ -150,7 +141,7 @@ export default function FormLogin() {
 
             <Button
               type="submit"
-              className="w-full bg-[#90EE90]"
+              className="w-full bg-amber-500"
               isDisabled={loading || providerLoading !== null}
             >
               {mode === 'login' ? 'Login' : 'Register'}
@@ -174,14 +165,14 @@ export default function FormLogin() {
             </div>
 
             <Button
-              className="w-full bg-[#5a32a3] text-white hover:bg-[#6f42c1]"
+              className="w-full bg-black text-white hover:bg-gray-700"
               type="button"
               onClick={() => handleOAuthLogin('google')}
               isDisabled={providerLoading === 'google'}
             >
-              <div className="flex items-baseline justify-center gap-2">
+              <div className="flex items-center justify-center gap-2">
                 <Icon src="/icons/google.svg" size={16} />
-                <span>Connect with Google</span>
+                <span className="mt-0.5">Connect with Google</span>
               </div>
             </Button>
           </form>

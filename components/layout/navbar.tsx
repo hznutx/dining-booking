@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CloseButton, Link, Separator } from '@heroui/react'
 import NextLink from 'next/link'
 import clsx from 'clsx'
@@ -12,6 +12,8 @@ import LanguageSwitcher from '../i18n'
 import ProfileAccount from '../design-system/ProfileAccount'
 import { SearchBar } from '../design-system/SearchBar'
 import { useTranslations } from 'next-intl'
+import { User } from '@/types/user'
+import { supabase } from '@/utils/supabase/client'
 
 const LogoBrand = () => {
   return (
@@ -42,32 +44,31 @@ export const getUserMenu = () => {
 }
 
 export const UserMenu = () => {
-  const getUser = () => true
+  const [user, setUser] = useState<User | null>(null)
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      data.user ? setUser(data.user as User) : null
+    })
+  }, [])
+
   const guestMenu = getUserMenu()
   const styleLabel = 'text-base transition-all duration-200 hover:text-gray-400'
 
   return (
     <>
-      {getUser() ? (
+      {user?.id ? (
+        <ProfileAccount user={user} />
+      ) : (
         <div className="flex items-center space-x-4">
-          <a
-            key={guestMenu[0].label}
-            href={guestMenu[0].href}
-            className={styleLabel}
-          >
+          <a href={guestMenu[0].href} className={styleLabel}>
             {guestMenu[0].label}
           </a>
           <Separator orientation="vertical" />
-          <a
-            key={guestMenu[1].label}
-            href={guestMenu[1].href}
-            className={styleLabel}
-          >
+          <a href={guestMenu[1].href} className={styleLabel}>
             {guestMenu[1].label}
           </a>
         </div>
-      ) : (
-        <ProfileAccount />
       )}
     </>
   )
@@ -78,7 +79,7 @@ export const Navbar = () => {
 
   return (
     <nav>
-      <header className="bg-background top-0 z-[150] w-screen backdrop-blur-lg">
+      <header className="bg-background top-0 z-[150] w-full backdrop-blur-lg">
         <div className="container mx-auto max-w-7xl px-4">
           <div className="flex h-16 items-center justify-between lg:h-[72px]">
             <LogoBrand />

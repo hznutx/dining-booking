@@ -29,13 +29,11 @@ const paragraph =
 
 export const Footer = () => {
   return (
-    <section className="bg-gray-50 py-10 sm:pt-16 lg:pt-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-x-12 gap-y-16 md:col-span-3 lg:grid-cols-6">
           <div className="col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
-            <p className="mt-7 text-base leading-relaxed text-gray-600">
-              {paragraph}
-            </p>
+            <p className="mt-7 text-base leading-relaxed">{paragraph}</p>
 
             <ul className="mt-9 flex items-center space-x-3">
               {socialLinks.map(({ name, href, icon: Icon }) => (
@@ -62,7 +60,7 @@ export const Footer = () => {
                 <a
                   href="#"
                   title=""
-                  className="flex text-base text-black transition-all duration-200"
+                  className="flex text-base transition-all duration-200"
                 >
                   {' '}
                   About{' '}
@@ -73,7 +71,7 @@ export const Footer = () => {
                 <a
                   href="#"
                   title=""
-                  className="flex text-base text-black transition-all duration-200"
+                  className="flex text-base transition-all duration-200"
                 >
                   {' '}
                   Features{' '}
@@ -84,7 +82,7 @@ export const Footer = () => {
                 <a
                   href="#"
                   title=""
-                  className="flex text-base text-black transition-all duration-200"
+                  className="flex text-base transition-all duration-200"
                 >
                   {' '}
                   Works{' '}
@@ -95,7 +93,7 @@ export const Footer = () => {
                 <a
                   href="#"
                   title=""
-                  className="flex text-base text-black transition-all duration-200"
+                  className="flex text-base transition-all duration-200"
                 >
                   {' '}
                   Career{' '}
@@ -114,7 +112,7 @@ export const Footer = () => {
                 <a
                   href="#"
                   title=""
-                  className="flex text-base text-black transition-all duration-200"
+                  className="flex text-base transition-all duration-200"
                 >
                   {' '}
                   Customer Support{' '}
@@ -125,7 +123,7 @@ export const Footer = () => {
                 <a
                   href="#"
                   title=""
-                  className="flex text-base text-black transition-all duration-200"
+                  className="flex text-base transition-all duration-200"
                 >
                   {' '}
                   Delivery Details{' '}
@@ -136,7 +134,7 @@ export const Footer = () => {
                 <a
                   href="#"
                   title=""
-                  className="flex text-base text-black transition-all duration-200"
+                  className="flex text-base transition-all duration-200"
                 >
                   {' '}
                   Terms & Conditions{' '}
@@ -147,7 +145,7 @@ export const Footer = () => {
                 <a
                   href="#"
                   title=""
-                  className="flex text-base text-black transition-all duration-200"
+                  className="flex text-base transition-all duration-200"
                 >
                   {' '}
                   Privacy Policy{' '}
@@ -163,7 +161,7 @@ export const Footer = () => {
 
         <hr className="mt-16 mb-10 border-gray-200" />
 
-        <p className="text-center text-sm text-gray-600">
+        <p className="text-center text-sm">
           © Copyright {new Date().getFullYear()} {credit} All Rights Reserved.
         </p>
       </div>

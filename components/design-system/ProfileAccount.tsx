@@ -1,72 +1,74 @@
-'use client';
+'use client'
 
-import { Avatar, AvatarRootProps, Badge, Button, Popover } from '@heroui/react';
-import { useState } from 'react';
+import { AuthResponse, User } from '@/types/user'
+import { supabase } from '@/utils/supabase/client'
+import { Avatar, AvatarRootProps, Badge, Button, Popover } from '@heroui/react'
+import { useState } from 'react'
 
-const data = {
+const mockUser = {
   id: 4554,
   name: 'Sarah Johnson',
   src: 'https://img.heroui.chat/image/avatar?w=400&h=400&u=1',
   username: 'sarahohio',
-};
+}
 
-export const ProfileImage: React.FC<AvatarRootProps> = ({ ...props }) => {
+interface IProfileAccount extends AvatarRootProps {
+  data?: User
+}
+
+export const ProfileImage: React.FC<IProfileAccount> = ({ ...props }) => {
+  const { data } = props
+
   return (
     <Avatar {...props}>
-      <Avatar.Image
-        alt={data.name}
-        src={data.src}
-      />
-      <Avatar.Fallback>{data.name.charAt(0).toUpperCase()}</Avatar.Fallback>
+      <Avatar.Image alt={data?.id} src={data?.user_metadata?.avatar_url} />
+      <Avatar.Fallback>{data?.email.charAt(0).toUpperCase()}</Avatar.Fallback>
     </Avatar>
-  );
-};
+  )
+}
 
-const ProfileAccount = () => {
-  const [isFollowing, setIsFollowing] = useState(false);
+const ProfileAccount: React.FC<AuthResponse> = ({ user }) => {
+  const [isFollowing, setIsFollowing] = useState(false)
 
   return (
     <Badge.Anchor>
       <Popover>
-        <Popover.Trigger aria-label='User profile'>
-          <ProfileImage size='sm' />
+        <Popover.Trigger aria-label="User profile">
+          <ProfileImage size="sm" data={user} />
         </Popover.Trigger>
-        <Popover.Content
-          className='w-[320px]'
-          placement='bottom right'
-        >
+        <Popover.Content className="w-[320px]" placement="bottom right">
           <Popover.Dialog>
             <Popover.Heading>
-              <div className='flex items-center justify-between mb-5'>
-                <div className='flex items-center gap-3'>
-                  <ProfileImage />
+              <div className="mb-5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <ProfileImage data={user} />
                   <div>
-                    <p className='font-semibold'>{data.name}</p>
-                    <p className='text-sm text-muted'>@{data.username}</p>
+                    <p className="font-xl font-semibold">
+                      {user?.user_metadata?.full_name}
+                    </p>
+                    <p className="text-muted text-sm">{user?.email}</p>
                   </div>
                 </div>
               </div>
             </Popover.Heading>
             <Button
-              className='rounded-full'
+              className="rounded-full bg-black text-white"
               fullWidth
-              size='sm'
-              variant={isFollowing ? 'tertiary' : 'primary'}
-              onPress={() => setIsFollowing(!isFollowing)}
+              size="sm"
+              onPress={async () => {
+                supabase.auth.signOut().finally(() => location.reload())
+              }}
             >
-              {isFollowing ? 'Logout' : 'Login'}
+              Logout
             </Button>
           </Popover.Dialog>
         </Popover.Content>
       </Popover>
-      <Badge
-        size='sm'
-        color='danger'
-      >
+      <Badge size="sm" color="danger">
         {2}
       </Badge>
     </Badge.Anchor>
-  );
-};
+  )
+}
 
-export default ProfileAccount;
+export default ProfileAccount

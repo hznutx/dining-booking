@@ -66,8 +66,8 @@ export default async function LocaleLayout({ children, params }: any) {
           messages={messages}
         >
           <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
-            <ToastProvider />
             <div className={'relative'}>
+              <ToastProvider placement="top-center" />
               {!hiddenLayout && <Navbar />}
               <main className={'flex-1'}>{children}</main>
             </div>
