@@ -18,5 +18,27 @@
   "navbar": {
     "signup": "Create Free Account",
     "login": "Login"
+  },
+  "user": {
+    "menu": {
+      "booking_deals": "Booking List",
+      "logout": "Logout",
+      "setting": "Setting"
+    }
+  },
+  "explore": {
+    "header": "25% OFF",
+    "subtitle": "JUST FOR TODAY OFFER "
+  },
+  "deal": {
+    "expired_at": "Promotion ends ",
+    "portion": "People",
+    "booking": "Book Now",
+    "net_price": "Net Price",
+    "information": "Package Information"
+  },
+  "currency": "$",
+  "restaurant": {
+    "information": "Information"
   }
 }

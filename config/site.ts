@@ -38,3 +38,11 @@ export const siteConfig = {
     sponsor: 'https://i.ibb.co/8LhJnyht/image0.jpg',
   },
 }
+
+export const PAGE = {
+  LOGIN: '/login',
+  EXPLORE: '/explore',
+  RESTAURANT: '/restaurants',
+  USER_DEALS: '/my-booking',
+  SETTING: '/setting',
+}

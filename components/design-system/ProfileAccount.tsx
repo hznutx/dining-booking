@@ -2,8 +2,11 @@
 
 import { AuthResponse, User } from '@/types/user'
 import { supabase } from '@/utils/supabase/client'
+import { getAvailableDeals } from '@/utils/supabase/user'
 import { Avatar, AvatarRootProps, Badge, Button, Popover } from '@heroui/react'
-import { useState } from 'react'
+import { useTranslations } from 'next-intl'
+import Link from 'next/link'
+import { useEffect, useState, useRef } from 'react'
 
 const mockUser = {
   id: 4554,
@@ -21,14 +24,43 @@ export const ProfileImage: React.FC<IProfileAccount> = ({ ...props }) => {
 
   return (
     <Avatar {...props}>
-      <Avatar.Image alt={data?.id} src={data?.user_metadata?.avatar_url} />
+      <Avatar.Image alt={data?.id} src={data?.user_metadata?.picture} />
       <Avatar.Fallback>{data?.email.charAt(0).toUpperCase()}</Avatar.Fallback>
     </Avatar>
   )
 }
 
 const ProfileAccount: React.FC<AuthResponse> = ({ user }) => {
-  const [isFollowing, setIsFollowing] = useState(false)
+  const hasFetched = useRef(false)
+  const t = useTranslations()
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    if (hasFetched.current) return
+    hasFetched.current = true
+
+    const loadDeals = async () => {
+      const res = await getAvailableDeals(String(user.id))
+      setCount(res.count)
+    }
+
+    loadDeals()
+  }, [user.id])
+
+  const menu = [
+    {
+      label: t('user.menu.booking_deals'),
+      href: '',
+      prop:
+        count > 0 ? (
+          <div className="bg-danger aspect-square w-4 rounded-full p-px text-center text-[10px] text-white">
+            {count > 100 ? '100+' : count}
+          </div>
+        ) : (
+          <></>
+        ),
+    },
+    { label: t('user.menu.setting'), href: '' },
+  ]
 
   return (
     <Badge.Anchor>
@@ -43,14 +75,27 @@ const ProfileAccount: React.FC<AuthResponse> = ({ user }) => {
                 <div className="flex items-center gap-3">
                   <ProfileImage data={user} />
                   <div>
-                    <p className="font-xl font-semibold">
+                    <p className="text-base font-semibold">
                       {user?.user_metadata?.full_name}
                     </p>
-                    <p className="text-muted text-sm">{user?.email}</p>
+                    <p className="text-muted line-clamp-1 h-5 text-sm">
+                      {user?.email}
+                    </p>
                   </div>
                 </div>
               </div>
             </Popover.Heading>
+            <div className="mb-4 flex flex-col space-y-2">
+              {menu.map(({ label, href, prop }, i) => (
+                <div
+                  key={i}
+                  className="inline-flex items-center justify-between"
+                >
+                  <Link href={href}>{label}</Link>
+                  {prop && prop}
+                </div>
+              ))}
+            </div>
             <Button
               className="rounded-full bg-black text-white"
               fullWidth
@@ -59,14 +104,16 @@ const ProfileAccount: React.FC<AuthResponse> = ({ user }) => {
                 supabase.auth.signOut().finally(() => location.reload())
               }}
             >
-              Logout
+              {t('user.menu.logout')}
             </Button>
           </Popover.Dialog>
         </Popover.Content>
       </Popover>
-      <Badge size="sm" color="danger">
-        {2}
-      </Badge>
+      {count > 0 && (
+        <Badge size="sm" color="danger">
+          {count > 100 ? '100+' : count}
+        </Badge>
+      )}
     </Badge.Anchor>
   )
 }

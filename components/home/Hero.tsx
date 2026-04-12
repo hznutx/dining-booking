@@ -1,4 +1,6 @@
 'use client'
+import { PAGE } from '@/config/site'
+import { EResType } from '@/enum'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -11,14 +13,14 @@ export const Hero = () => {
     subtitle: t('hero.subtitle'),
     cta: {
       label: t('hero.label'),
-      href: '#',
+      href: PAGE.EXPLORE,
     },
     categories: [
-      { label: t('hero.categories.all'), href: '#' },
-      { label: t('hero.categories.dining'), href: '#' },
-      { label: t('hero.categories.cafe'), href: '#' },
-      { label: t('hero.categories.buffet'), href: '#' },
-      { label: t('hero.categories.family'), href: '#' },
+      { label: t('hero.categories.all'), href: EResType.ALL },
+      { label: t('hero.categories.dining'), href: EResType.FINE_DINING },
+      { label: t('hero.categories.cafe'), href: EResType.CAFE },
+      { label: t('hero.categories.buffet'), href: EResType.BUFFET },
+      { label: t('hero.categories.family'), href: EResType.FAMILY },
     ],
     images: {
       desktop: '/hero.jpg',
@@ -54,8 +56,8 @@ export const Hero = () => {
                   {heroData.categories.map((item) => (
                     <a
                       key={item.label}
-                      href={item.href}
-                      className="rounded text-sm font-medium text-white transition-all duration-200 hover:text-amber-400"
+                      href={PAGE.EXPLORE + '?type=' + item.href}
+                      className="rounded text-sm text-white transition-all duration-200 hover:text-amber-400"
                     >
                       {item.label}
                     </a>
@@ -69,14 +71,14 @@ export const Hero = () => {
             <div className="mx-auto max-w-xl text-center lg:mx-0 lg:text-left">
               <p className="text-base text-gray-50">{heroData.subtitle}</p>
 
-              <h1 className="my-32 text-[clamp(2rem,3rem,6rem)] leading-tight font-bold text-white sm:mt-8 lg:mb-0 xl:mt-3">
+              <h1 className="my-32 text-[clamp(2rem,3rem,6rem)] leading-tight font-medium text-white sm:mt-8 lg:mb-0 xl:mt-3">
                 {heroData.title}
               </h1>
 
               <div className="mt-8 sm:mt-12">
                 <a
                   href={heroData.cta.href}
-                  className="inline-flex items-center justify-center rounded-2xl border border-transparent bg-gray-900 px-8 py-3 text-base leading-7 font-bold text-white transition-all duration-200 hover:bg-gray-600 focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 focus:ring-offset-[#FFE942] focus:outline-none"
+                  className="inline-flex items-center justify-center rounded-2xl border border-transparent bg-gray-900 px-8 py-3 text-base leading-7 font-medium text-white transition-all duration-200 hover:bg-gray-600 focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 focus:ring-offset-[#FFE942] focus:outline-none"
                 >
                   {heroData.cta.label}
                 </a>

@@ -6,6 +6,33 @@
 @theme {
   --font-sans: 'font', sans-serif;
   --font-mono: 'monospace', monospace;
+  --bg: white;
+  --text: black;
+}
+
+.dark {
+  --bg: #09090b;
+  --text: white;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+:root {
+  --color-accent-soft: #ffa20030;
+  --color-accent-soft-selected: #ffa20030;
+  --color-accent-soft-hover: #ffa20030;
+  --color-accent-soft-foreground: #ffa200;
+  --color-accent: #000;
+  --color-accent-hover: #ffa200;
+  --color-accent-fg: #ffffff;
+  --accent: var(--color-accent-hover);
+}
+
+button:hover {
+  transform: scale(1.1);
 }
 
 .hidden-scroll {
@@ -34,4 +61,28 @@
 * {
   scrollbar-width: thin;
   scrollbar-color: #00000050 transparent;
+}
+
+a:hover,
+a:active {
+  color: #999 !important;
+}
+
+.swiper-pagination {
+  z-index: 50;
+}
+
+.swiper-pagination-bullet {
+  background: black !important;
+  opacity: 0.3;
+  width: 8px;
+  height: 8px;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  width: 20px;
+  border-radius: 9999px;
+  background: rgb(121, 108, 76) !important;
 }

@@ -29,7 +29,7 @@ const paragraph =
 
 export const Footer = () => {
   return (
-    <section className="relative">
+    <footer>
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-x-12 gap-y-16 md:col-span-3 lg:grid-cols-6">
           <div className="col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
@@ -161,10 +161,10 @@ export const Footer = () => {
 
         <hr className="mt-16 mb-10 border-gray-200" />
 
-        <p className="text-center text-sm">
+        <p className="mb-3 text-center text-sm">
           © Copyright {new Date().getFullYear()} {credit} All Rights Reserved.
         </p>
       </div>
-    </section>
+    </footer>
   )
 }

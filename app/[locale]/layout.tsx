@@ -11,10 +11,11 @@ import { notFound } from 'next/navigation'
 import { Providers } from './providers'
 import { Navbar } from '@/components/layout/navbar'
 import { Footer } from '@/components/layout/footer'
-import { ToastProvider } from '@heroui/toast'
+import { ToastProvider } from '@heroui/react'
+import { CartProvider } from '@/context/CartContext'
+import { AuthProvider } from '@/context/AuthContext'
 
 export const metadata: Metadata = {
-  // manifest: '/manifest.json',
   title: {
     default: siteConfig.name,
     template: `%s - ${siteConfig.name}`,
@@ -55,7 +56,7 @@ export default async function LocaleLayout({ children, params }: any) {
     <html lang={locale} suppressHydrationWarning>
       <body
         className={clsx(
-          'bg-background min-h-screen font-sans antialiased',
+          'bg-background flex min-h-screen flex-col font-light antialiased',
           prompt.className,
           fontSans.variable,
         )}
@@ -65,14 +66,18 @@ export default async function LocaleLayout({ children, params }: any) {
           locale={locale}
           messages={messages}
         >
-          <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
-            <div className={'relative'}>
-              <ToastProvider placement="top-center" />
-              {!hiddenLayout && <Navbar />}
-              <main className={'flex-1'}>{children}</main>
-            </div>
-            {!hiddenLayout && <Footer />}
-          </Providers>
+          <CartProvider>
+            <AuthProvider>
+              <Providers
+                themeProps={{ attribute: 'class', defaultTheme: 'dark' }}
+              >
+                <ToastProvider placement="top" />
+                {!hiddenLayout && <Navbar />}
+                <main className="flex-1 text-base">{children}</main>
+                {!hiddenLayout && <Footer />}
+              </Providers>
+            </AuthProvider>
+          </CartProvider>
         </NextIntlClientProvider>
       </body>
     </html>

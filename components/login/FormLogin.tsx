@@ -5,6 +5,7 @@ import { Button, Card, Input, Spinner, toast } from '@heroui/react'
 import { useRouter } from 'next/navigation'
 import { Icon } from '../design-system/Icon'
 import { supabase } from '@/utils/supabase/client'
+import { publicUrlSvgFile } from '@/utils'
 
 export default function FormLogin() {
   const [mode, setMode] = useState<'login' | 'register' | 'active' | undefined>(
@@ -171,7 +172,7 @@ export default function FormLogin() {
               isDisabled={providerLoading === 'google'}
             >
               <div className="flex items-center justify-center gap-2">
-                <Icon src="/icons/google.svg" size={16} />
+                <Icon src={publicUrlSvgFile('google.svg')} size={16} />
                 <span className="mt-0.5">Connect with Google</span>
               </div>
             </Button>

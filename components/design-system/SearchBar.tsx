@@ -1,13 +1,35 @@
 'use client'
-import { TextField, InputGroup, Kbd } from '@heroui/react'
+
+import { TextField, InputGroup } from '@heroui/react'
 import { SearchIcon } from '../icons'
-import { deals } from '@/database'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 
-const data = deals
+export const SearchBar = ({ hidden }: { hidden?: boolean }) => {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
 
-export const SearchBar = () => {
   const [showFullWidth, setShowFullWidth] = useState(true)
+  const [input, setInput] = useState(searchParams.get('s') || '')
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString())
+
+      if (input) {
+        params.set('s', input)
+      } else {
+        params.delete('s')
+      }
+
+      router.push(`${pathname}?${params.toString()}`)
+    }, 500)
+
+    return () => clearTimeout(delay)
+  }, [input])
+
+  if (hidden) return null
 
   return (
     <>
@@ -17,17 +39,20 @@ export const SearchBar = () => {
             <InputGroup.Prefix>
               <SearchIcon
                 onClick={() => setShowFullWidth((prev) => !prev)}
-                className="flex-shrink-0 cursor-pointer text-base"
+                className="cursor-pointer"
               />
             </InputGroup.Prefix>
-            <InputGroup.Input className="text-sm" placeholder="Search..." />
-            <InputGroup.Suffix></InputGroup.Suffix>
+            <InputGroup.Input
+              placeholder="Search..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
           </InputGroup>
         </TextField>
       ) : (
         <SearchIcon
           onClick={() => setShowFullWidth((prev) => !prev)}
-          className="flex-shrink-0 cursor-pointer text-base"
+          className="cursor-pointer"
         />
       )}
     </>

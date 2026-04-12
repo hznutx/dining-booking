@@ -33,5 +33,27 @@
   "navbar": {
     "signup": "สมัครสมาชิก",
     "login": "เข้าสู่ระบบ"
+  },
+  "user": {
+    "menu": {
+      "booking_deals": "การจองของฉัน",
+      "logout": "ออกจากระบบ",
+      "setting": "การตั้งค่า"
+    }
+  },
+  "explore": {
+    "header": "25% ราคาพิเศษ",
+    "subtitle": "เฉพาะวันนี้เท่านั้น"
+  },
+  "deal": {
+    "expired_at": "ดีลนี้จะจบลงใน ",
+    "portion": "ท่าน",
+    "booking": "จองร้านอาหารนี้",
+    "net_price": "ราคาสุทธิต่อท่าน",
+    "information": "รายละเอียด"
+  },
+  "currency": "฿",
+  "restaurant": {
+    "information": "เกี่ยวกับเรา"
   }
 }
