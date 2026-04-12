@@ -11,9 +11,9 @@ import { notFound } from 'next/navigation'
 import { Providers } from './providers'
 import { Navbar } from '@/components/layout/navbar'
 import { Footer } from '@/components/layout/footer'
-import { ToastProvider } from '@heroui/react'
 import { CartProvider } from '@/context/CartContext'
 import { AuthProvider } from '@/context/AuthContext'
+import { ClientProvider } from '@/context/ClientContext'
 
 export const metadata: Metadata = {
   title: {
@@ -68,14 +68,15 @@ export default async function LocaleLayout({ children, params }: any) {
         >
           <CartProvider>
             <AuthProvider>
-              <Providers
-                themeProps={{ attribute: 'class', defaultTheme: 'dark' }}
-              >
-                <ToastProvider placement="top" />
-                {!hiddenLayout && <Navbar />}
-                <main className="flex-1 text-base">{children}</main>
-                {!hiddenLayout && <Footer />}
-              </Providers>
+              <ClientProvider>
+                <Providers
+                  themeProps={{ attribute: 'class', defaultTheme: 'dark' }}
+                >
+                  {!hiddenLayout && <Navbar />}
+                  <main className="flex-1 text-base">{children}</main>
+                  {!hiddenLayout && <Footer />}
+                </Providers>
+              </ClientProvider>
             </AuthProvider>
           </CartProvider>
         </NextIntlClientProvider>
