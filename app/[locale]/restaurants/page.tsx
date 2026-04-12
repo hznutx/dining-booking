@@ -3,17 +3,10 @@ import { createClient } from '@/utils/supabase/server'
 import { Metadata } from 'next'
 import { cookies } from 'next/headers'
 
-export default async function ExploreRestaurantsPage({
-  searchParams,
-}: {
-  searchParams: { type?: string }
-}) {
+export default async function ExploreRestaurantsPage() {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
-  const { type } = await searchParams
 
-  let { data: cate } = await supabase.from('categories').select('*')
-  const cateId = cate?.find((item, i) => item.type == String(type))?.id
   let { data: restaurants, error } = await supabase
     .from('restaurants')
     .select(`*,deals (*),categories (*)`)

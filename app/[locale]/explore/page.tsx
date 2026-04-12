@@ -8,7 +8,7 @@ import { cookies } from 'next/headers'
 export default async function ExploreRestaurantsPage({
   searchParams,
 }: {
-  searchParams: { type?: string }
+  searchParams: Promise<{ type?: string }>
 }) {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
