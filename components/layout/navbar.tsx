@@ -11,10 +11,10 @@ import { siteConfig } from '@/config/site'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { Logo, MenuIcon } from '@/components/icons'
 import LanguageSwitcher from '../i18n/LanguageSwitcher'
-import ProfileAccount from '../design-system/ProfileAccount'
+import ProfileAccount, { ProfileMenu } from '../design-system/ProfileAccount'
 import { SearchBar } from '../design-system/SearchBar'
-import { useTranslations } from 'next-intl'
 import { useAuth } from '@/context/AuthContext'
+import { useUserMenu } from '@/services/hooks/useUser'
 
 export const LogoBrand = () => {
   return (
@@ -27,27 +27,10 @@ export const LogoBrand = () => {
   )
 }
 
-export const getUserMenu = () => {
-  const t = useTranslations()
-
-  const guestMenu = [
-    {
-      label: t('navbar.sign_up'),
-      href: '#',
-    },
-    {
-      label: t('navbar.login'),
-      href: '/login',
-    },
-  ]
-
-  return guestMenu
-}
-
 export const UserMenu = () => {
   const { user, loading } = useAuth()
 
-  const guestMenu = getUserMenu()
+  const { guestMenu } = useUserMenu()
   const styleLabel = 'text-base transition-all duration-200 hover:text-gray-400'
 
   if (loading) {
@@ -71,7 +54,8 @@ export const UserMenu = () => {
 
 export const Navbar = () => {
   const pathname = usePathname()
-  const guestMenu = getUserMenu()
+  const { user } = useAuth()
+  const { guestMenu, userMenu } = useUserMenu()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -110,16 +94,20 @@ export const Navbar = () => {
             />
           </div>
           <ul className="flex flex-col gap-2 px-4 pt-10 pb-4">
-            {guestMenu.map(({ href, label }, index) => (
-              <li key={`${index}`}>
-                <Link
-                  className={clsx('block py-2 text-lg no-underline')}
-                  href={href}
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
+            {user?.id ? (
+              <ProfileMenu user={user} menu={userMenu} />
+            ) : (
+              guestMenu.map(({ href, label }, index) => (
+                <li key={`${index}`}>
+                  <Link
+                    className={clsx('block py-2 text-lg no-underline')}
+                    href={href}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))
+            )}
           </ul>
         </div>
       )}
