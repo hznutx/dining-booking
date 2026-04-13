@@ -67,7 +67,7 @@ export default function FormLogin() {
           email,
           password,
           options: {
-            emailRedirectTo: `${location.origin}/auth/callback`,
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
           },
         })
 
@@ -101,7 +101,7 @@ export default function FormLogin() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${location.origin}/auth/callback`,
+          redirectTo: `${window.location.origin}/auth/callback`,
         },
       })
 
