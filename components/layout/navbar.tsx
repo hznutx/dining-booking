@@ -71,6 +71,7 @@ export const UserMenu = () => {
 
 export const Navbar = () => {
   const pathname = usePathname()
+  const guestMenu = getUserMenu()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -109,20 +110,13 @@ export const Navbar = () => {
             />
           </div>
           <ul className="flex flex-col gap-2 px-4 pt-10 pb-4">
-            {siteConfig.navItems.map((item, index) => (
+            {guestMenu.map(({ href, label }, index) => (
               <li key={`${index}`}>
                 <Link
-                  className={clsx(
-                    'block py-2 text-lg no-underline',
-                    index === 2
-                      ? 'text-accent'
-                      : index === siteConfig.navItems.length - 1
-                        ? 'text-danger'
-                        : 'text-foreground',
-                  )}
-                  href="#"
+                  className={clsx('block py-2 text-lg no-underline')}
+                  href={href}
                 >
-                  {item.key}
+                  {label}
                 </Link>
               </li>
             ))}

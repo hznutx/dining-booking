@@ -8,19 +8,19 @@ export const siteConfig = {
   description: 'Booking your next precious dinner in Italy with Gelato',
   navItems: [
     {
-      key: 'percent_of',
-      href: '/percent-of',
+      key: 'navbar.sign_up',
+      href: '/login',
       type: 'menu',
     },
     {
-      key: 'angel_number',
-      href: '/percent-of',
+      key: 'navbar.login',
+      href: '/login',
       type: 'dropdown',
     },
   ],
   navMenuItems: [
     {
-      key: 'percent_of',
+      key: 'navbar.sign_up',
       href: '/',
       parent: 'angel_number',
       icon: FaPhoneVolume,
