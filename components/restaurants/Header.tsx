@@ -3,8 +3,7 @@
 import { useTranslations } from 'next-intl'
 import { SearchBar } from '../design-system/SearchBar'
 
-const imgUrl =
-  'https://i.ibb.co/CGKb0H9/dinner-set-with-sushi-soup-fried-chicken-noodles-cake.jpg'
+const imgUrl = '/header.png'
 
 const Header = () => {
   const t = useTranslations()
@@ -29,7 +28,7 @@ const Header = () => {
         <img
           src={imgUrl}
           alt="hero"
-          fetchPriority="high"
+          loading="lazy"
           className="absolute z-0 h-72 w-full object-cover"
         />
       </div>
