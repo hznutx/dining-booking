@@ -16,7 +16,7 @@
     }
   },
   "navbar": {
-    "signup": "Create Free Account",
+    "sign_up": "Create Free Account",
     "login": "Login"
   },
   "user": {
@@ -35,10 +35,34 @@
     "portion": "People",
     "booking": "Book Now",
     "net_price": "Net Price",
-    "information": "Package Information"
+    "information": "Package Information",
+    "booking_time": "Select Date before Booking Time",
+    "time_log": "Booking at: ",
+    "booking_detail": "Reservation by:",
+    "select_time": "Select Booking time",
+    "form": {
+      "subtitle": "Update your information.",
+      "ex_name": "Name"
+    }
   },
   "currency": "$",
   "restaurant": {
     "information": "Information"
+  },
+  "error": {
+    "phone": "(+) or number 0-9",
+    "name": "Name must be at least 3 characters",
+    "email": "email required",
+    "phone_length": "Invalid phone number"
+  },
+  "form": {
+    "name": "Name",
+    "email": "Email",
+    "textarea": "Note",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "phone": "Tel.",
+    "success": "Booking complete! 🎉 Your table is reserved.",
+    "error_submit": "Something went wrong. Please try again later"
   }
 }

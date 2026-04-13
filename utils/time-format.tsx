@@ -31,8 +31,15 @@ export const formatTimeRange = (
   selectTime: Date,
   durationMn: number,
 ): string => {
-  const toPg = (date: Date) =>
-    date?.toISOString().replace('T', ' ').slice(0, 19)
+  const toPg = (date: Date) => {
+    const pad = (n: number) => String(n).padStart(2, '0')
+
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
+      date.getDate(),
+    )} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(
+      date.getSeconds(),
+    )}`
+  }
 
   const start = new Date(selectTime)
   const end = new Date(start)
@@ -40,4 +47,18 @@ export const formatTimeRange = (
 
   const range = `[${toPg(start)},${toPg(end)})`
   return range
+}
+
+export const getTimeLog = (date: Date, durationMn: number): string => {
+  const end = new Date(date)
+  end.setMinutes(end.getMinutes() + durationMn)
+
+  const format = (d: Date) =>
+    d.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    })
+
+  return `${format(date)}-${format(end)}`
 }

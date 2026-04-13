@@ -32,7 +32,7 @@ export const getUserMenu = () => {
 
   const guestMenu = [
     {
-      label: t('navbar.signup'),
+      label: t('navbar.sign_up'),
       href: '#',
     },
     {

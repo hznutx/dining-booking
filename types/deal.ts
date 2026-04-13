@@ -14,6 +14,7 @@ export interface IDeal {
   max_seat: number
   restaurants: IRestaurant
   categories: ICategory
+  duration: number
 }
 
 export interface IRestaurant {
