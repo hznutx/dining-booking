@@ -79,7 +79,7 @@ export default function RestaurantPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-">
       <h1 className="text-2xl font-bold">Menus Management</h1>
 
       {restaurants.map((r) => (

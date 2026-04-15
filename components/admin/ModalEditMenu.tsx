@@ -46,7 +46,7 @@ export default function ModalEditMenu({ open, onClose, menu, onSave }: Props) {
       : form.price
 
   return (
-    <Modal isOpen={open} onOpenChange={onClose} size="sm" hideCloseButton>
+    <Modal isOpen={open} onOpenChange={onClose} size="sm" hideCloseButton classNames={{ backdrop: "bg-black/30 backdrop-blur-sm"}}>
       <ModalContent className="bg-background rounded-2xl shadow-xl">
         {/* HEADER */}
         <ModalHeader className="border-b pb-3 space-y-4 pt-1">
@@ -169,7 +169,7 @@ export default function ModalEditMenu({ open, onClose, menu, onSave }: Props) {
 
         {/* FOOTER */}
         <ModalFooter className="flex justify-between border-t pt-2 mb-2">
-          <Button variant="primary" onClick={onClose}>
+          <Button variant="primary" className="rounded-xl px-6" onClick={onClose}>
             Cancel
           </Button>
 
@@ -180,7 +180,7 @@ export default function ModalEditMenu({ open, onClose, menu, onSave }: Props) {
               onSave(form)
               onClose()
             }}
-          >
+            >
             Save
           </Button>
         </ModalFooter>

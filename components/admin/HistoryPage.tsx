@@ -8,8 +8,10 @@ type History = {
   id: number
   user: string
   action: string
-  restaurant: string
-  time: string
+  email: string
+  people: number
+  time_start: string
+  time_end: string
   date: string
 }
 
@@ -21,16 +23,20 @@ export default function HistoryPage() {
       id: 1,
       user: 'John',
       action: 'Booked',
-      restaurant: 'Shabu King',
-      time: '18:00',
+      email: 'Shabu-King@frf.frf',
+      people: 9,
+      time_start: '18:00',
+      time_end: '18:00',
       date: '2026-04-14',
     },
     {
       id: 2,
       user: 'Jane',
       action: 'Cancelled',
-      restaurant: 'Pizza Town',
-      time: '19:30',
+      email: 'Pizza-Town@frfr.frf',
+      people: 9,
+      time_start: '19:30',
+      time_end: '19:30',
       date: '2026-04-13',
     },
   ])
@@ -38,7 +44,7 @@ export default function HistoryPage() {
   const filtered = history.filter(
     (h) =>
       h.user.toLowerCase().includes(search.toLowerCase()) ||
-      h.restaurant.toLowerCase().includes(search.toLowerCase())
+      h.email.toLowerCase().includes(search.toLowerCase())
   )
 
   return (
@@ -47,7 +53,7 @@ export default function HistoryPage() {
 
       {/* Search */}
       <Input
-        placeholder="Search user or restaurant..."
+        placeholder="Search user or email..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
@@ -59,9 +65,11 @@ export default function HistoryPage() {
             <thead>
               <tr className="border-b text-left">
                 <th className="p-2">User</th>
+                <th className="p-2">email</th>
+                <th className="p-2">People</th>
                 <th className="p-2">Action</th>
-                <th className="p-2">Restaurant</th>
-                <th className="p-2">Time</th>
+                <th className="p-2">Time Start</th>
+                <th className="p-2">Time End</th>
                 <th className="p-2">Date</th>
               </tr>
             </thead>
@@ -70,6 +78,8 @@ export default function HistoryPage() {
               {filtered.map((h) => (
                 <tr key={h.id} className="border-b">
                   <td className="p-2">{h.user}</td>
+                  <td className="p-2">{h.email}</td>
+                  <td className="p-2">{h.people}</td>
                   <td className="p-2">
                     <span
                       className={
@@ -81,8 +91,8 @@ export default function HistoryPage() {
                       {h.action}
                     </span>
                   </td>
-                  <td className="p-2">{h.restaurant}</td>
-                  <td className="p-2">{h.time}</td>
+                  <td className="p-2">{h.time_start}</td>
+                  <td className="p-2">{h.time_end}</td>
                   <td className="p-2">{h.date}</td>
                 </tr>
               ))}

@@ -8,6 +8,7 @@ type User = {
   id: number
   name: string
   email: string
+  last_active: string
   role: 'admin' | 'user'
 }
 
@@ -19,12 +20,14 @@ export default function UsersPage() {
       id: 1,
       name: 'John',
       email: 'john@mail.com',
+      last_active: '18-55-2105:555',
       role: 'admin',
     },
     {
       id: 2,
       name: 'Jane',
       email: 'jane@mail.com',
+      last_active: '18-55-2105:555',
       role: 'user',
     },
   ])
@@ -68,6 +71,7 @@ export default function UsersPage() {
               <tr className="border-b text-left">
                 <th className="p-2">Name</th>
                 <th className="p-2">Email</th>
+                <th className="p-2">Active</th>
                 <th className="p-2">Role</th>
                 <th className="p-2 text-right">Action</th>
               </tr>
@@ -78,6 +82,7 @@ export default function UsersPage() {
                 <tr key={u.id} className="border-b">
                   <td className="p-2">{u.name}</td>
                   <td className="p-2">{u.email}</td>
+                  <td className="p-2">{u.last_active}</td>
                   <td className="p-2">
                     <span
                       className={
