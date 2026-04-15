@@ -1,8 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { Listbox, ListboxItem, ListboxSection } from '@heroui/listbox'
-import { cn } from '@heroui/react'
 import DashboardPage from './DashboardPage'
 import BookingPage from './BookingPage'
 import HistoryPage from './HistoryPage'
@@ -12,8 +10,6 @@ import MenusManagementPage from './MenusManagementPage'
 
 export default function AdminClient() {
   const [page, setPage] = useState('dashboard')
-
-  const iconClasses = 'text-xl text-default-500 pointer-events-none shrink-0'
 
   return (
     <div className="flex p-3 ">
