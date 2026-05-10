@@ -9,7 +9,7 @@ import { Link, usePathname } from '@/i18n/navigation'
 import { Chip } from '@heroui/react'
 import clsx from 'clsx'
 
-export const BrandTag = ({ className }: { className?: string }) => {
+const BrandTag = ({ className }: { className?: string }) => {
   return (
     <div
       className={clsx(className, 'flex w-full items-center justify-between')}
