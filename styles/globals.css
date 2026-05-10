@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import '@heroui/styles';
+@import './decorate.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -35,6 +36,10 @@ button:hover {
   transform: scale(1.1);
 }
 
+.non-scale:hover {
+  transform: scale(1);
+}
+
 .hidden-scroll {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -63,10 +68,10 @@ button:hover {
   scrollbar-color: #00000050 transparent;
 }
 
-a:hover,
+/*a:hover,
 a:active {
-  color: #999 !important;
-}
+  color: #999;
+}*/
 
 .swiper-pagination {
   z-index: 50;

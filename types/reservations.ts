@@ -1,8 +1,11 @@
+import { IDeal } from './deal'
+
 export interface IReservation {
   id?: string
   user_id?: string | null
   restaurant_id: number
   deal_id: number
+  deals: IDeal
   guest_count: number
   time_range: string
   created_at?: string | null

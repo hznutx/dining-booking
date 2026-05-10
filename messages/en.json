@@ -63,6 +63,9 @@
     "cancel": "Cancel",
     "phone": "Tel.",
     "success": "Booking complete! 🎉 Your table is reserved.",
-    "error_submit": "Something went wrong. Please try again later"
+    "error_submit": "You've already booked this time."
+  },
+  "admin": {
+    "setting": "Admin Management"
   }
 }

@@ -4,10 +4,10 @@ import { IDeal } from '@/types/deal'
 import { supabase } from '@/utils/supabase/client'
 import { Calendar } from '@heroui/react'
 import type { CalendarDate, DateValue } from '@internationalized/date'
-import { getLocalTimeZone, isToday, today } from '@internationalized/date'
-import { useEffect, useState } from 'react'
+import { getLocalTimeZone, today } from '@internationalized/date'
 import { useLocale } from 'next-intl'
 import { I18nProvider } from 'react-aria-components'
+import { useEffect, useMemo, useState } from 'react'
 
 interface IDatePickerState {
   date: DateValue | null
@@ -21,7 +21,16 @@ export const DatePicker: React.FC<IDatePickerState> = ({
   onChange,
 }) => {
   const locale = useLocale()
-  const now = today(getLocalTimeZone())
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const now = useMemo(() => {
+    return today(getLocalTimeZone())
+  }, [])
 
   const minDate = now
   const maxDate = now.add({ years: 1 })
@@ -31,13 +40,17 @@ export const DatePicker: React.FC<IDatePickerState> = ({
 
   const isMatchEvent = (date: CalendarDate) =>
     [2, 3, 15, 16, 20].includes(date.day)
+
   const isFullyBooked = (date: CalendarDate) => [15, 20].includes(date.day)
+
+  if (!mounted) return null
 
   return (
     <I18nProvider locale={locale}>
       <Calendar
-        style={{ width: '100%' }}
+        style={{ width: '100%', fontSize: `clamp(0.5rem, 1.5vw, 1rem)` }}
         aria-label="booking-date"
+        id="calendar"
         value={date}
         onChange={onChange}
         minValue={minDate}
@@ -64,7 +77,13 @@ export const DatePicker: React.FC<IDatePickerState> = ({
           </Calendar.GridHeader>
           <Calendar.GridBody>
             {(date) => (
-              <Calendar.Cell date={date} style={{ textDecoration: 'none' }}>
+              <Calendar.Cell
+                date={date}
+                style={{
+                  textDecoration: 'none',
+                  borderRadius: '100%',
+                }}
+              >
                 {({ formattedDate }) => (
                   <>
                     {formattedDate}

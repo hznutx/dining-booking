@@ -3,7 +3,8 @@ import NotFound from '@/components/design-system/NotFound'
 import { PaginationControlled } from '@/components/design-system/Pagination'
 import Header from '@/components/restaurants/Header'
 import { EResType } from '@/enum'
-import { IDeal } from '@/types/deal'
+import { ICategory, IDeal } from '@/types/deal'
+import { getCateId } from '@/utils'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 
@@ -27,11 +28,10 @@ export default async function ExploreRestaurantsPage({
   const from = (pageNumber - 1) * pageSize
   const to = from + pageSize - 1
 
-  let { data: cate } = await supabase.from('categories').select('*')
-  const cateId = cate
-    ?.find((item) => item.type == String(type))
-    ?.id.select(`*, restaurants(*), categories(*)`, { count: 'exact' })
-
+  let { data: cate, error: errType } = await supabase
+    .from('categories')
+    .select('*')
+  const cateId = getCateId(cate as ICategory[], String(type))
   let query = supabase
     .from('deals')
     .select(`*, restaurants(*), categories(*)`, { count: 'exact' })
@@ -46,7 +46,7 @@ export default async function ExploreRestaurantsPage({
 
   const { data: exploreData, count, error } = await query.range(from, to)
 
-  if (error) return <NotFound />
+  if (error || errType) return <NotFound />
 
   return (
     <section>

@@ -42,6 +42,7 @@ const DealBookingForm: React.FC<IDealBooking> = ({ data: deal }) => {
 
   const [date, setDate] = useState<DateValue | null>(null)
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null)
+  const [mounted, setMounted] = useState(false)
 
   const {
     register,
@@ -111,10 +112,16 @@ const DealBookingForm: React.FC<IDealBooking> = ({ data: deal }) => {
     reset()
   }
 
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
   return (
     <div>
       <Form
-        className="flex w-full flex-col gap-4"
+        className="mx-auto flex w-full flex-col gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <DatePicker date={date} onChange={onChange} />

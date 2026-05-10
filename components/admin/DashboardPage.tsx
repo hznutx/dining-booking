@@ -1,88 +1,81 @@
 'use client'
 
 import { Card, CardBody } from '@heroui/card'
-import BookingPage from './BookingPage'
+import { InfoBox } from '../design-system/InfoBox'
+import { useReservation } from '@/services/hooks/useReservation'
+import { useAuth } from '@/context/AuthContext'
+import BrandHeader from '../design-system/BrandHeader'
+import { TableDataList } from '../design-system/Table'
+import { formatReadableTimeRange, formatTimeRange } from '@/utils/time-format'
+import { useLocale } from 'next-intl'
 
 export default function DashboardPage() {
-  // TODO: เปลี่ยนเป็น data จาก API / Supabase
-  const stats = {
-    usersToday: 45,
-    bookingsToday: 34,
-    newUsersToday: 12,
-    totalUsers: 120,
-    totalBookings: 560,
-  }
-
-  const recentBookings = [
-    { name: 'Shabu King', time: '18:00', user: 'Aran' },
-    { name: 'Pizza Town', time: '19:30', user: 'John' },
-    { name: 'Sushi Bar', time: '20:00', user: 'Jane' },
+  const locale = useLocale()
+  const { profile } = useAuth()
+  const {
+    allBookings,
+    countAll,
+    todayBookings,
+    uniqueBookings,
+    countTotalSeatsToday,
+  } = useReservation(Number(profile?.restaurant_id))
+  const stats = [
+    { name: 'Bookings Today', value: todayBookings?.length },
+    { name: 'Users', value: uniqueBookings?.length },
+    { name: 'Total Seats', value: countTotalSeatsToday },
+    { name: 'Total Bookings', value: countAll },
   ]
+
+  const recentBookings = allBookings.map(
+    ({ guest_name, phone, guest_count, time_range, deals }, i) => {
+      const { date, timeRange } = formatReadableTimeRange(
+        time_range,
+        locale.toString(),
+      )
+      return {
+        id: i,
+        name: guest_name,
+        phone,
+        deal: deals?.name,
+        price: deals?.price,
+        seat: guest_count,
+        date,
+        time: timeRange,
+      }
+    },
+  )
 
   return (
     <div className="space-y-6">
-
-      {/* SUMMARY */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-
-        <Card>
-          <CardBody>
-            <p className="text-sm text-gray-500">Users Today</p>
-            <h2 className="text-2xl font-bold">{stats.usersToday}</h2>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardBody>
-            <p className="text-sm text-gray-500">Bookings Today</p>
-            <h2 className="text-2xl font-bold">{stats.bookingsToday}</h2>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardBody>
-            <p className="text-sm text-gray-500">New Users</p>
-            <h2 className="text-2xl font-bold">{stats.newUsersToday}</h2>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardBody>
-            <p className="text-sm text-gray-500">Total Users</p>
-            <h2 className="text-2xl font-bold">{stats.totalUsers}</h2>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardBody>
-            <p className="text-sm text-gray-500">Total Bookings</p>
-            <h2 className="text-2xl font-bold">{stats.totalBookings}</h2>
-          </CardBody>
-        </Card>
-
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+        {stats.map(({ name, value }, i) => (
+          <InfoBox key={i} title={name} value={value} variant="secondary" />
+        ))}
       </div>
+      <BrandHeader detail={profile?.restaurants} />
 
       {/* RECENT BOOKINGS */}
       <Card>
         <CardBody>
           {/* <BookingPage/> */}
-          <h3 className="font-semibold mb-4">Recent Bookings</h3>
+          <h3 className="mb-4 font-semibold">Recent Bookings</h3>
 
           <div className="divide-y">
-            {recentBookings.map((b, i) => (
-              <div key={i} className="flex justify-between py-2">
-                <div>
-                  <p className="font-medium">{b.name}</p>
-                  <p className="text-xs text-gray-400">by {b.user}</p>
-                </div>
-                <span className="text-sm">{b.time}</span>
-              </div>
-            ))}
+            <TableDataList
+              columns={[
+                { id: 'name', name: 'Name' },
+                { id: 'deal', name: 'Package' },
+                { id: 'seat', name: 'People' },
+                { id: 'price', name: 'Net Price' },
+                { id: 'date', name: 'Booking Date' },
+                { id: 'time', name: 'Time' },
+                { id: 'phone', name: 'Contact (tel.)' },
+              ]}
+              tableData={recentBookings}
+            />
           </div>
-
         </CardBody>
       </Card>
-
     </div>
   )
 }

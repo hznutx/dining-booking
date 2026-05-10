@@ -1,10 +1,10 @@
 import { supabase } from './client'
 
-export const getAvailableDeals = async (userId: string) => {
+export const getUserBookings = async (userId: string) => {
   try {
     const { data } = await supabase
       .from('reservations')
-      .select('id, deal_id,deals (*)')
+      .select('id')
       .eq('user_id', userId)
       .eq('redeem', false)
 
@@ -13,7 +13,7 @@ export const getAvailableDeals = async (userId: string) => {
       deals: data ?? [],
     }
   } catch (error) {
-    console.error('getAvailableDeals err:', error)
+    console.error('getUserBookings err:', error)
     return {
       count: 0,
       deals: [],

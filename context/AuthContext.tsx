@@ -2,48 +2,59 @@
 
 import { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from '@/utils/supabase/client'
-import { User } from '@/types/user'
+import { EUserRole } from '@/enum'
+import { IRestaurant } from '@/types/deal'
 
-type AuthContextType = {
-  user: User | null
-  loading: boolean
+interface Profile {
+  id: string
+  role: EUserRole
+  restaurant_id: number
+  restaurants: IRestaurant
 }
 
-const AuthContext = createContext<AuthContextType | null>(null)
+const AuthContext = createContext<{
+  user: any
+  profile: Profile | null
+  loading: boolean
+}>({
+  user: null,
+  profile: null,
+  loading: true,
+})
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<any>(null)
+  const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const getUser = async () => {
+    const load = async () => {
       const { data } = await supabase.auth.getUser()
-      setUser(data.user as User | null)
+      const user = data.user
+
+      setUser(user)
+
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('*,restaurants (*)')
+          .eq('id', user.id)
+          .single()
+
+        setProfile(profile)
+      }
+
       setLoading(false)
     }
 
-    getUser()
-
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user as User | null)
-      },
-    )
-
-    return () => {
-      listener.subscription.unsubscribe()
-    }
+    load()
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, profile, loading }}>
       {children}
     </AuthContext.Provider>
   )
 }
 
-export const useAuth = () => {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider')
-  return ctx
-}
+export const useAuth = () => useContext(AuthContext)

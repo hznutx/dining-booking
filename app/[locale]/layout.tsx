@@ -1,5 +1,4 @@
 import '@/styles/globals.css'
-import { headers } from 'next/headers'
 import { Metadata, Viewport } from 'next'
 import clsx from 'clsx'
 import { NextIntlClientProvider } from 'next-intl'
@@ -9,11 +8,10 @@ import { siteConfig } from '@/config/site'
 import { fontSans, prompt } from '@/config/fonts'
 import { notFound } from 'next/navigation'
 import { Providers } from './providers'
-import { Navbar } from '@/components/layout/navbar'
-import { Footer } from '@/components/layout/footer'
 import { CartProvider } from '@/context/CartContext'
 import { AuthProvider } from '@/context/AuthContext'
 import { ClientProvider } from '@/context/ClientContext'
+import { AdminProvider } from '@/context/AdminContext'
 
 export const metadata: Metadata = {
   title: {
@@ -34,17 +32,9 @@ export const viewport: Viewport = {
 }
 
 const locales = ['en', 'th']
-export const exceptPath = ['/login']
 
 export default async function LocaleLayout({ children, params }: any) {
   const { locale } = await params
-
-  const headersList = await headers()
-  const pathname = (await headersList.get('x-pathname')) || ''
-
-  const hiddenLayout = exceptPath.some((path) =>
-    pathname.startsWith(`/${locale}${path}`),
-  )
 
   if (!locales.includes(locale)) {
     notFound()
@@ -61,24 +51,20 @@ export default async function LocaleLayout({ children, params }: any) {
           fontSans.variable,
         )}
       >
-        <NextIntlClientProvider
-          key={locale}
-          locale={locale}
-          messages={messages}
-        >
-          <CartProvider>
-            <AuthProvider>
-              <ClientProvider>
-                <Providers
-                  themeProps={{ attribute: 'class', defaultTheme: 'dark' }}
-                >
-                  {!hiddenLayout && <Navbar />}
-                  <main className="flex-1 text-base">{children}</main>
-                  {!hiddenLayout && <Footer />}
-                </Providers>
-              </ClientProvider>
-            </AuthProvider>
-          </CartProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <AdminProvider>
+            <CartProvider>
+              <AuthProvider>
+                <ClientProvider>
+                  <Providers
+                    themeProps={{ attribute: 'class', defaultTheme: 'dark' }}
+                  >
+                    <main className="flex-1 text-base">{children}</main>
+                  </Providers>
+                </ClientProvider>
+              </AuthProvider>
+            </CartProvider>
+          </AdminProvider>
         </NextIntlClientProvider>
       </body>
     </html>

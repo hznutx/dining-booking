@@ -1,16 +1,24 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Button, Card, Input, Spinner, toast } from '@heroui/react'
+import { Button, Card, Input, toast } from '@heroui/react'
 import { useRouter } from 'next/navigation'
 import { Icon } from '../design-system/Icon'
 import { supabase } from '@/utils/supabase/client'
 import { publicUrlSvgFile } from '@/utils'
+import { EUserRole } from '@/enum'
+import { LogoBrand } from '../layout/navbar'
 
-export default function FormLogin() {
-  const [mode, setMode] = useState<'login' | 'register' | 'active' | undefined>(
-    undefined,
-  )
+interface FormLoginProps {
+  redirectTo?: string
+  requireRole?: EUserRole
+}
+
+export default function FormLogin({
+  redirectTo = '/',
+  requireRole,
+}: FormLoginProps) {
+  const [mode, setMode] = useState<'login' | 'register'>('login')
   const [loading, setLoading] = useState(true)
   const [providerLoading, setProviderLoading] = useState<string | null>(null)
   const router = useRouter()
@@ -20,8 +28,7 @@ export default function FormLogin() {
       const { data } = await supabase.auth.getSession()
 
       if (data.session) {
-        setMode('active')
-        router.push('/')
+        router.replace(redirectTo)
       } else {
         setMode('login')
       }
@@ -30,7 +37,30 @@ export default function FormLogin() {
     }
 
     checkSession()
-  }, [router])
+  }, [router, redirectTo])
+
+  const handleAfterLogin = async () => {
+    const { data: userData } = await supabase.auth.getUser()
+    const user = userData.user
+
+    if (!user) return
+
+    if (requireRole) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single()
+
+      if (!profile || profile.role !== requireRole) {
+        toast.warning('Permission denied')
+        await supabase.auth.signOut()
+        return
+      }
+    }
+
+    router.replace(redirectTo)
+  }
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -55,7 +85,7 @@ export default function FormLogin() {
 
         toast.success('Login success 🎉')
 
-        router.replace('/')
+        await handleAfterLogin()
       } catch {
         toast.danger('Something went wrong')
       } finally {
@@ -72,16 +102,12 @@ export default function FormLogin() {
         })
 
         if (error) {
-          if (error.code === 'over_email_send_rate_limit') {
-            toast.danger('Something went wrong')
-          } else {
-            toast.danger(`${error.message}`)
-          }
+          toast.danger(error.message)
           return
         }
 
         if (!data.user?.identities?.length) {
-          toast.warning('User exists')
+          toast.warning('User already exists')
           return
         }
 
@@ -106,8 +132,7 @@ export default function FormLogin() {
       })
 
       if (error) {
-        toast.warning('fail login with other service')
-
+        toast.warning('Login failed')
         setProviderLoading(null)
       }
     } catch {
@@ -117,11 +142,16 @@ export default function FormLogin() {
 
   return (
     <div className="mx-auto flex h-screen w-full items-center justify-center">
-      <Card style={{ width: 400 }}>
-        <div>
+      <div className="mx-auto flex flex-col items-center justify-center space-y-6">
+        <LogoBrand />
+        <Card style={{ width: 400 }}>
           <form onSubmit={onSubmit} className="w-full space-y-8 p-6">
             <h1 className="text-center text-xl font-semibold">
-              {mode === 'login' ? 'Login' : 'Register'}
+              {requireRole === 'ADMIN'
+                ? 'Admin Login'
+                : mode === 'login'
+                  ? 'Login'
+                  : 'Register'}
             </h1>
 
             <Input
@@ -152,7 +182,7 @@ export default function FormLogin() {
               {mode === 'login' ? 'No account?' : 'Already have an account?'}
               <button
                 type="button"
-                className="ml-1 cursor-pointer text-blue-500 underline"
+                className="ml-1 text-blue-500 underline"
                 onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
               >
                 {mode === 'login' ? 'Register' : 'Login'}
@@ -173,12 +203,12 @@ export default function FormLogin() {
             >
               <div className="flex items-center justify-center gap-2">
                 <Icon src={publicUrlSvgFile('google.svg')} size={16} />
-                <span className="mt-0.5">Connect with Google</span>
+                <span>Connect with Google</span>
               </div>
             </Button>
           </form>
-        </div>
-      </Card>
+        </Card>
+      </div>
     </div>
   )
 }

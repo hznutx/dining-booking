@@ -45,6 +45,7 @@ export const AccordingList: React.FC<IAccording> = ({
         <div className="mb-4 flex items-center justify-between">
           <div className="flex gap-2">
             <Button
+              id="prev"
               aria-label="Previous item"
               isDisabled={isPrevDisabled}
               size="sm"
@@ -54,6 +55,7 @@ export const AccordingList: React.FC<IAccording> = ({
               <BiChevronUp className="size-4" />
             </Button>
             <Button
+              id="next"
               aria-label="Next item"
               isDisabled={isNextDisabled}
               size="sm"

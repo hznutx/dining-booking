@@ -28,7 +28,7 @@ export const TimeController: React.FC<ITimer> = ({
   }
 
   return (
-    <div className="flex w-full flex-wrap justify-between gap-2">
+    <div className="flex w-full flex-wrap gap-2">
       {timeAvailableMap?.map((timing, i) => (
         <ToggleButton
           className={'w-20'}

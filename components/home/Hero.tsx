@@ -1,12 +1,14 @@
 'use client'
 import { PAGE } from '@/config/site'
 import { EResType } from '@/enum'
+import { useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useState } from 'react'
 
 export const Hero = () => {
   const t = useTranslations()
+  const router = useRouter()
 
   const heroData = {
     title: t('hero.title'),
@@ -76,12 +78,12 @@ export const Hero = () => {
               </h1>
 
               <div className="mt-8 sm:mt-12">
-                <a
-                  href={heroData.cta.href}
+                <button
+                  onClick={() => router.push(heroData.cta.href)}
                   className="inline-flex items-center justify-center rounded-2xl border border-transparent bg-gray-900 px-8 py-3 text-base leading-7 font-medium text-white transition-all duration-200 hover:bg-gray-600 focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 focus:ring-offset-[#FFE942] focus:outline-none"
                 >
                   {heroData.cta.label}
-                </a>
+                </button>
               </div>
             </div>
           </div>

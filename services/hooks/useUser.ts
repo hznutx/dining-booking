@@ -1,27 +1,31 @@
 'use client'
 
 import { useAuth } from '@/context/AuthContext'
-import { getAvailableDeals } from '@/utils/supabase/user'
+import { EUserRole } from '@/enum'
+import { getUserBookings } from '@/utils/supabase/user'
 import { useTranslations } from 'next-intl'
 import { useRef, useState, useEffect } from 'react'
 
 export const useUserMenu = () => {
   const { user } = useAuth()
-  const hasFetched = useRef(false)
   const t = useTranslations()
   const [count, setCount] = useState(0)
+  const fetchedUserId = useRef<string | null>(null)
 
   useEffect(() => {
-    if (hasFetched.current) return
-    hasFetched.current = true
+    if (!user?.id) return
+
+    if (fetchedUserId.current === user.id) return
+
+    fetchedUserId.current = user.id
 
     const loadDeals = async () => {
-      const res = await getAvailableDeals(String(user?.id))
-      setCount(res.count)
+      const res = await getUserBookings(user.id)
+      setCount(res.count || 0)
     }
 
     loadDeals()
-  }, [user?.id])
+  }, [])
 
   const guestMenu = [
     {
@@ -42,6 +46,7 @@ export const useUserMenu = () => {
       propData: count,
     },
     { label: t('user.menu.setting'), href: '' },
+    { label: t('admin.setting'), href: '/admin/dashboard' },
   ]
 
   return { guestMenu, userMenu }

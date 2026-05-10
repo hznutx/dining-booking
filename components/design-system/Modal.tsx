@@ -1,4 +1,4 @@
-import { Modal, Button } from '@heroui/react'
+import { Modal } from '@heroui/react'
 
 interface IModalPopup {
   trigger: React.ReactNode

@@ -34,7 +34,7 @@ export const SearchBar = ({ hidden }: { hidden?: boolean }) => {
   return (
     <>
       {showFullWidth ? (
-        <TextField aria-label="Search" type="search">
+        <TextField type="search">
           <InputGroup className="focus-within:border-transparent focus-within:ring-0 focus-within:outline-none">
             <InputGroup.Prefix>
               <SearchIcon
@@ -43,6 +43,10 @@ export const SearchBar = ({ hidden }: { hidden?: boolean }) => {
               />
             </InputGroup.Prefix>
             <InputGroup.Input
+              id="search-bar"
+              aria-label="search"
+              aria-labelledby="text"
+              aria-describedby="search"
               placeholder="Search..."
               value={input}
               onChange={(e) => setInput(e.target.value)}

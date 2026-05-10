@@ -3,9 +3,18 @@
 import { useUserMenu } from '@/services/hooks/useUser'
 import { AuthResponse, User } from '@/types/user'
 import { supabase } from '@/utils/supabase/client'
-import { Avatar, AvatarRootProps, Badge, Button, Popover } from '@heroui/react'
+import {
+  Avatar,
+  AvatarRootProps,
+  Badge,
+  Button,
+  Popover,
+  Tooltip,
+} from '@heroui/react'
+import clsx from 'clsx'
 import { useTranslations } from 'next-intl'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
+import { LuLogOut } from 'react-icons/lu'
 
 interface IProfileAccount extends AvatarRootProps {
   data?: User
@@ -21,7 +30,6 @@ interface IMenuItem {
 type IProfileMenu = { menu: IMenuItem[]; user?: User }
 
 export const ProfileMenu: React.FC<IProfileMenu> = ({ menu, user }) => {
-  const t = useTranslations()
   return (
     <div>
       <div className="mb-5 flex items-center justify-between">
@@ -49,16 +57,7 @@ export const ProfileMenu: React.FC<IProfileMenu> = ({ menu, user }) => {
           </div>
         ))}
       </div>
-      <Button
-        className="rounded-full bg-black text-white"
-        fullWidth
-        size="sm"
-        onPress={async () => {
-          supabase.auth.signOut().finally(() => location.reload())
-        }}
-      >
-        {t('user.menu.logout')}
-      </Button>
+      <LogoutButton />
     </div>
   )
 }
@@ -68,9 +67,48 @@ export const ProfileImage: React.FC<IProfileAccount> = ({ ...props }) => {
 
   return (
     <Avatar {...props}>
-      <Avatar.Image alt={data?.id} src={data?.user_metadata?.picture} />
+      <Avatar.Image alt={data?.id} src={data?.user_metadata?.avatar_url} />
       <Avatar.Fallback>{data?.email.charAt(0).toUpperCase()}</Avatar.Fallback>
     </Avatar>
+  )
+}
+
+export const LogoutButton = ({
+  type,
+  className,
+}: {
+  type?: 'icon' | 'button'
+  className?: string
+}) => {
+  const t = useTranslations()
+  const handleLogOut = async () => {
+    supabase.auth.signOut().finally(() => location.reload())
+  }
+
+  if (type === 'icon') {
+    return (
+      <div className={clsx(className)}>
+        <Tooltip delay={0}>
+          <Button isIconOnly variant="tertiary" onPress={handleLogOut}>
+            <LuLogOut onClick={handleLogOut} size={24} />
+          </Button>
+          <Tooltip.Content>
+            <p>{t('user.menu.logout')}</p>
+          </Tooltip.Content>
+        </Tooltip>
+      </div>
+    )
+  }
+
+  return (
+    <Button
+      className={clsx(className, 'rounded-full bg-black text-white')}
+      fullWidth
+      size="sm"
+      onPress={handleLogOut}
+    >
+      {t('user.menu.logout')}
+    </Button>
   )
 }
 

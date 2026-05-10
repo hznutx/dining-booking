@@ -29,9 +29,6 @@ export const DealBookingPage: React.FC<IDealBooking> = ({ data: detail }) => {
             <h1 className="mr-6 text-xl font-extrabold xl:text-3xl">
               {detail?.name}
             </h1>
-            <ToggleButton size="lg">
-              <BiHeart />
-            </ToggleButton>
           </div>
           <div className="relative w-full">
             <img
@@ -44,10 +41,15 @@ export const DealBookingPage: React.FC<IDealBooking> = ({ data: detail }) => {
         </div>
         {detail?.description && (
           <div id="content" className="mt-5 space-y-6">
-            <Title
-              label={t('deal.information')}
-              prefixIcon={<BsFillInfoCircleFill size={20} />}
-            />
+            <div className="inline-flex w-full items-center justify-between">
+              <Title
+                label={t('deal.information')}
+                prefixIcon={<BsFillInfoCircleFill size={20} />}
+              />
+              <ToggleButton size="lg">
+                <BiHeart />
+              </ToggleButton>
+            </div>
             <p>{detail?.description}</p>
           </div>
         )}
@@ -55,7 +57,7 @@ export const DealBookingPage: React.FC<IDealBooking> = ({ data: detail }) => {
 
       <div id="side-bar" className="col-span-1 space-y-10 xl:col-span-3">
         <div className="xl:sticky xl:top-8 xl:bottom-auto">
-          <Card>
+          <Card className="mx-auto w-full max-w-md">
             <Card.Header>
               <Title prefixIcon={<AiFillGift />} label={t('deal.booking')} />
               <Separator />

@@ -1,6 +1,8 @@
-import AdminClient from "@/components/admin/AdminClient"
+import FormLogin from '@/components/login/FormLogin'
+import { EUserRole } from '@/enum'
 
-const Admin = () => {
-  return <AdminClient/>;
+export default function AdminLoginPage() {
+  return (
+    <FormLogin requireRole={EUserRole.ADMIN} redirectTo={'/admin/dashboard'} />
+  )
 }
-export default Admin

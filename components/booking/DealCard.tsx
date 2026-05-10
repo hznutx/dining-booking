@@ -1,17 +1,18 @@
 'use client'
 import { PAGE } from '@/config/site'
+import { useRouter } from '@/i18n/navigation'
 import { useCurrency } from '@/services/hooks/useCurrency'
 import { IDeal } from '@/types/deal'
 import { Button, Card } from '@heroui/react'
 import { useLocale, useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
 import { BsFillPeopleFill } from 'react-icons/bs'
 
 interface ICard {
   data: IDeal
+  isReadOnly?: boolean
 }
 
-export const DealCard: React.FC<ICard> = ({ data }) => {
+export const DealCard: React.FC<ICard> = ({ data, isReadOnly }) => {
   const t = useTranslations()
   const locale = useLocale()
   const router = useRouter()
@@ -63,13 +64,16 @@ export const DealCard: React.FC<ICard> = ({ data }) => {
               </span>
             )}
           </div>
-          <Button
-            className="w-full sm:w-auto"
-            variant="primary"
-            onClick={handleClick}
-          >
-            {t('deal.booking')}
-          </Button>
+          {!isReadOnly && (
+            <Button
+              aria-label="booking-submit"
+              className="w-full sm:w-auto"
+              variant="primary"
+              onClick={handleClick}
+            >
+              {t('deal.booking')}
+            </Button>
+          )}
         </Card.Footer>
       </div>
     </Card>

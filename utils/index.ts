@@ -1,3 +1,5 @@
+import { ICategory } from '@/types/deal'
+
 export const publicUrlSvgFile = (fileName: string): string => {
   return `/icons/${fileName}`
 }
@@ -17,4 +19,11 @@ export const trimRegexCharacters = (input: string) => {
   let cleanedInput = input.replace(regexSpecialCharacters, '')
   cleanedInput = cleanedInput.replace(regexThai, '')
   return cleanedInput.trim()
+}
+
+export const getCateId = (cate: ICategory[], type: string): string => {
+  if (!cate || !type) return '0'
+  return cate
+    ? cate?.find((item) => item.type == String(type))?.id.toString() || '0'
+    : '0'
 }

@@ -62,3 +62,58 @@ export const getTimeLog = (date: Date, durationMn: number): string => {
 
   return `${format(date)}-${format(end)}`
 }
+
+export const isSameDay = (date: string) => {
+  const today = new Date()
+  const target = new Date(date)
+
+  return (
+    today.getDate() === target.getDate() &&
+    today.getMonth() === target.getMonth() &&
+    today.getFullYear() === target.getFullYear()
+  )
+}
+
+export const formatReadableTimeRange = (
+  timeRange: string,
+  locale: string = 'en',
+) => {
+  try {
+    const cleaned = timeRange
+      .replace('[', '')
+      .replace(')', '')
+      .replace(']', '')
+      .replace(/"/g, '')
+
+    const [start, end] = cleaned.split(',')
+
+    const startDate = new Date(start)
+    const endDate = new Date(end)
+
+    const dateFormatter = new Intl.DateTimeFormat(locale, {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    })
+
+    const timeFormatter = new Intl.DateTimeFormat(locale, {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    })
+
+    return {
+      date: `${dateFormatter.format(startDate)}`,
+      timeStart: `${timeFormatter.format(startDate)}`,
+      timeEnd: `${timeFormatter.format(endDate)}`,
+      timeRange: `${timeFormatter.format(
+        startDate,
+      )} - ${timeFormatter.format(endDate)}`,
+      dateTime: `${dateFormatter.format(startDate)} • ${timeFormatter.format(
+        startDate,
+      )} - ${timeFormatter.format(endDate)}`,
+    }
+  } catch (error) {
+    return {}
+  }
+}

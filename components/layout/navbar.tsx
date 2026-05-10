@@ -27,9 +27,7 @@ export const LogoBrand = () => {
   )
 }
 
-export const UserMenu = () => {
-  const { user, loading } = useAuth()
-
+export const UserMenu = ({ user, loading }: { user?: any; loading?: any }) => {
   const { guestMenu } = useUserMenu()
   const styleLabel = 'text-base transition-all duration-200 hover:text-gray-400'
 
@@ -54,20 +52,20 @@ export const UserMenu = () => {
 
 export const Navbar = () => {
   const pathname = usePathname()
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
   const { guestMenu, userMenu } = useUserMenu()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
     <nav>
       <header className="top-0 z-[150] w-full backdrop-blur-lg">
-        <div className="container mx-auto max-w-7xl px-4">
+        <div className="container mx-auto max-w-7xl px-4 xl:px-0">
           <div className="flex h-16 items-center justify-between lg:h-[72px]">
             <LogoBrand />
             <div className="flex items-center">
               <div className="mr-5 hidden items-center space-x-5 lg:flex">
                 <SearchBar hidden={pathname.includes(PAGE.EXPLORE)} />
-                <UserMenu />
+                <UserMenu user={user} loading={loading} />
                 <LanguageSwitcher />
               </div>
               <button

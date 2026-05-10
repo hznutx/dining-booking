@@ -3,89 +3,53 @@
 import { useState } from 'react'
 import { Button } from '@heroui/react'
 import { Card, CardBody } from '@heroui/card'
-
-type Booking = {
-  id: number
-  name: string
-  email: string
-  time_start: string
-  time_end: string
-  people: number
-}
+import { TableDataList } from '../design-system/Table'
+import { useAuth } from '@/context/AuthContext'
+import { useReservation } from '@/services/hooks/useReservation'
+import { formatReadableTimeRange } from '@/utils/time-format'
+import { start } from 'repl'
 
 export default function BookingPage() {
-  const [bookings, setBookings] = useState<Booking[]>([
-    {
-      id: 1,
-      name: 'John',
-      email: 'klrklk@frlkgrg.com',
-      time_start: '18:00',
-      time_end: '19:00',
-      people: 2,
+  const deleteBooking = (id: number) => {}
+  const { profile } = useAuth()
+  const { allBookings } = useReservation(Number(profile?.restaurant_id))
+  const recentBookings = allBookings.map(
+    ({ guest_name, phone, guest_count, time_range, deals }, i) => {
+      const { date, timeStart, timeEnd } = formatReadableTimeRange(time_range)
+      return {
+        id: i,
+        name: guest_name,
+        phone,
+        deal: deals?.name,
+        price: deals?.price,
+        seat: guest_count,
+        date,
+        start: timeStart,
+        end: timeEnd,
+      }
     },
-    {
-      id: 2,
-      name: 'Jane',
-      email: 'wfwefej@fkjfrf.co.th',
-      time_start: '19:30',
-      time_end: '19:40',
-      people: 4,
-    },
-  ])
-
-  const deleteBooking = (id: number) => {
-    setBookings(bookings.filter((b) => b.id !== id))
-  }
+  )
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Booking Management</h1>
       <Card>
         <CardBody className="p-4">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="text-left border-b">
-                <th className="p-2">Name</th>
-                <th className="p-2">Email</th>
-                <th className="p-2">Time Start</th>
-                <th className="p-2">Time End</th>
-                <th className="p-2">People</th>
-                <th className="p-2 text-right">Notification</th>
-                <th className="p-2 text-right">Action</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {bookings.map((b) => (
-                <tr key={b.id} className="border-b">
-                  <td className="p-2">{b.name}</td>
-                  <td className="p-2">{b.email}</td>
-                  <td className="p-2">{b.time_start}</td>
-                  <td className="p-2">{b.time_end}</td>
-                  <td className="p-2">{b.people}</td>
-
-                  <td className="p-2 text-right">
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      // onClick={() => deleteBooking(b.id)}
-                    >
-                      Send
-                    </Button>
-                  </td>
-                  <td className="p-2 text-right">
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => deleteBooking(b.id)}
-                    >
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="divide-y">
+            <TableDataList
+              columns={[
+                { id: 'name', name: 'Name' },
+                { id: 'deal', name: 'Package' },
+                { id: 'seat', name: 'People' },
+                { id: 'price', name: 'Net Price' },
+                { id: 'start', name: 'Time Start' },
+                { id: 'end', name: 'Time End' },
+                { id: 'date', name: 'Booking Date' },
+                { id: 'phone', name: 'Contact (tel.)' },
+              ]}
+              tableData={recentBookings}
+            />
+          </div>
         </CardBody>
       </Card>
     </div>
