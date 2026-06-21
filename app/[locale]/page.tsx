@@ -6,9 +6,9 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <div className="xl:min-h-screen">
+      <main className="xl:min-h-screen">
         <Hero />
-      </div>
+      </main>
       <Footer />
     </>
   )

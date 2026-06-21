@@ -30,7 +30,7 @@ export const DetailPage: React.FC<IDetailPage> = ({ data: detail }) => {
         <BrandHeader detail={detail} />
         {detail?.description && (
           <div id="content" className="mt-5">
-            <p className="mb-5 inline-flex items-center gap-2 text-xl font-[600] text-slate-400">
+            <p className="inline-flex items-center gap-2 text-xl font-[600] text-slate-400">
               <BsFillInfoCircleFill
                 size={20}
                 className="text-[var(--color-accent-hover)]"

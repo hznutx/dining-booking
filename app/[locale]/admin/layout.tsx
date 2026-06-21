@@ -4,12 +4,15 @@ import { EAdminMenu } from '@/enum'
 import { LogoBrand } from '@/components/layout/navbar'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { LogoutButton } from '@/components/design-system/ProfileAccount'
-import LanguageSwitcher from '@/components/i18n/LanguageSwitcher'
-import { Link, usePathname } from '@/i18n/navigation'
-import { Chip } from '@heroui/react'
+import { Card, Chip } from '@heroui/react'
 import clsx from 'clsx'
+import { MenuButton } from '@/components/admin/MenuButton'
+import { useAuth } from '@/context/AuthContext'
+import { NavbarAdmin } from '@/components/admin/NavbarAdmin'
+import LanguageSwitcher from '@/components/i18n/LanguageSwitcher'
+import { usePathname } from 'next/navigation'
 
-const BrandTag = ({ className }: { className?: string }) => {
+export const BrandTag = ({ className }: { className?: string }) => {
   return (
     <div
       className={clsx(className, 'flex w-full items-center justify-between')}
@@ -18,17 +21,20 @@ const BrandTag = ({ className }: { className?: string }) => {
         <LogoBrand />
         <Chip size="sm">Admin </Chip>
       </div>
-      <LogoutButton
-        type="icon"
-        className="cursor-pointer hover:opacity-60 xl:hidden"
-      />
+      <div className="mr-4 inline-flex items-center gap-4 xl:hidden">
+        <ThemeSwitch />
+        <LanguageSwitcher />
+      </div>
     </div>
   )
 }
 
 export default function AdminLayout({ children }: { children: any }) {
-  const menu = Object.values(EAdminMenu)
+  const { profile } = useAuth()
   const pathname = usePathname()
+  const menu = profile?.restaurants
+    ? [...Object.values(EAdminMenu), 'setting']
+    : ['setting']
   const styleBackdrop = 'glass-bg'
 
   return (
@@ -39,9 +45,9 @@ export default function AdminLayout({ children }: { children: any }) {
           'mx-auto h-screen w-full justify-between xl:flex',
         )}
       >
-        <BrandTag className="p-4 xl:hidden" />
-        <div className="hidden-scroll relative flex w-full gap-4 overflow-x-scroll p-4 xl:w-1/6 xl:flex-col xl:overflow-x-hidden xl:p-6">
-          <BrandTag className="mb-10 hidden xl:flex" />
+        <NavbarAdmin menu={menu} />
+        <div className="relative hidden w-full flex-col gap-4 overflow-x-hidden p-6 xl:flex xl:w-1/6">
+          <BrandTag className="mb-5 hidden xl:flex" />
           <div className="right-5 bottom-5 z-[50] hidden gap-5 xl:absolute xl:flex">
             <ThemeSwitch />
             <LogoutButton
@@ -49,25 +55,18 @@ export default function AdminLayout({ children }: { children: any }) {
               className="cursor-pointer hover:opacity-60"
             />
           </div>
-          {menu.map((item) => (
-            <Link
-              key={item}
-              href={`/admin/${item}`}
-              className={`non-scale w-full cursor-pointer rounded-3xl px-4 py-2 text-left capitalize ${
-                pathname.endsWith(item)
-                  ? 'bg-accent-hover text-shadow font-medium text-white'
-                  : 'hover:bg-accent-soft'
-              }`}
-            >
-              {item}
-            </Link>
-          ))}
+          {menu.map((item, i) => {
+            return <MenuButton menu={item} key={i} />
+          })}
         </div>
         <div
           id="panel"
-          className="w-full flex-1 overflow-y-auto px-6 pt-10 pb-20 xl:w-5/6"
+          className={`${pathname.includes(EAdminMenu.dashboard) ? 'px-0' : 'px-6'} w-full flex-1 overflow-y-auto pt-25 xl:w-5/6 xl:pt-10`}
         >
-          {children}
+          <div className="h-[90vh]">{children}</div>
+        </div>
+        <div className="absolute top-5 right-5 z-[100] hidden xl:flex">
+          <LanguageSwitcher />
         </div>
       </div>
     </AdminGuard>

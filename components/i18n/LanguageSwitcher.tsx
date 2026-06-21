@@ -1,8 +1,9 @@
 'use client'
 
-import { Select, ListBox, Key } from '@heroui/react'
-import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useMemo, useState } from 'react'
+import { Select, ListBox } from '@heroui/react'
+import { useRouter, usePathname } from '@/i18n/navigation'
+import { useLocale } from 'next-intl'
+import { startTransition } from 'react'
 import { GoDotFill } from 'react-icons/go'
 
 export const languages = [
@@ -11,53 +12,45 @@ export const languages = [
 ]
 
 export default function LanguageSwitcher() {
-  const pathname = usePathname()
   const router = useRouter()
+  const pathname = usePathname()
+  const locale = useLocale()
 
-  const [mounted, setMounted] = useState(false)
+  const handleChange = (nextLocale: string) => {
+    if (nextLocale === locale) return
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const currentLocale = useMemo(() => {
-    return pathname?.split('/')[1] || 'en'
-  }, [pathname])
-
-  const handleChange = (locale: Key | null) => {
-    if (!locale || !pathname) return
-
-    const segments = pathname.split('/')
-
-    segments[1] = String(locale)
-
-    router.replace(segments.join('/'))
+    startTransition(() => {
+      router.replace(pathname, {
+        locale: nextLocale,
+      })
+    })
   }
 
-  if (!mounted) return null
-
   return (
-    <Select value={currentLocale} aria-label="locale">
-      <Select.Trigger aria-label="toggle-language">
+    <Select value={locale} aria-label="locale">
+      <Select.Trigger
+        aria-label="toggle-language"
+        className="non-scale cursor-pointer"
+      >
         <Select.Value />
         <Select.Indicator />
       </Select.Trigger>
-      <Select.Popover className={'rounded-xl focus:outline-none'}>
+
+      <Select.Popover className="rounded-xl focus:outline-none">
         <ListBox>
           {languages.map((item) => (
             <ListBox.Item
-              onClick={() => {
-                handleChange(item.code)
-              }}
               key={item.code}
               id={item.code}
               textValue={item.code}
+              onClick={() => handleChange(item.code)}
             >
               {item.flag}
+
               <ListBox.ItemIndicator>
                 {({ isSelected }) =>
                   isSelected ? (
-                    <GoDotFill color="#22C55E" className="ml-2" />
+                    <GoDotFill className="ml-2 text-green-500" />
                   ) : null
                 }
               </ListBox.ItemIndicator>

@@ -11,8 +11,8 @@ const BrandHeader = ({ detail }: { detail?: IRestaurant }) => {
           src={detail?.brand_logo}
         />
       </div>
-      <div className="w-full items-center justify-between xl:inline-flex">
-        <h1 className="mr-6 text-xl font-extrabold xl:text-3xl">
+      <div className="mt-4 w-full items-center justify-between md:mt-0 xl:inline-flex">
+        <h1 className="mr-6 text-xl font-extrabold whitespace-pre-wrap xl:text-3xl">
           {detail?.name}
         </h1>
       </div>

@@ -46,7 +46,7 @@ export const useUserMenu = () => {
       propData: count,
     },
     { label: t('user.menu.setting'), href: '' },
-    { label: t('admin.setting'), href: '/admin/dashboard' },
+    { label: t('admin.setting.menu'), href: '/admin/dashboard' },
   ]
 
   return { guestMenu, userMenu }

@@ -9,6 +9,7 @@ import { useManageRestaurant } from '@/services/hooks/useReservation'
 import { useAuth } from '@/context/AuthContext'
 import { useAdmin } from '@/context/AdminContext'
 import { DealCard } from '../booking/DealCard'
+import { AdminHeader } from '../design-system/Typography'
 
 type MenuItem = {
   id: number
@@ -34,6 +35,7 @@ export default function MenusManagement() {
 
   const { allDeals, restaurant } = useManageRestaurant(
     Number(profile?.restaurant_id),
+    String(profile?.id),
   )
 
   const updateMenu = (rId: number, updatedMenu: MenuItem) => {}
@@ -42,7 +44,7 @@ export default function MenusManagement() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Menus Management</h1>
+      <AdminHeader title={'Menus Management'} />
       <Card>
         <CardBody className="space-y-4 p-4">
           <Button

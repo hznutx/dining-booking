@@ -1,8 +1,5 @@
 {
-  "menu": {
-    "percent_of": "% Of",
-    "angel_number": "Phone Number"
-  },
+  "menu": {},
   "hero": {
     "title": "Discover and reserve the best dining experiences in your city",
     "subtitle": "Summer hot deals 30% with `Promo99`",
@@ -66,6 +63,26 @@
     "error_submit": "You've already booked this time."
   },
   "admin": {
-    "setting": "Admin Management"
+    "setting": {
+      "title": "Restaurant Setting",
+      "description": "Update your restaurant information.",
+      "form": {
+        "name": "Restaurant Name",
+        "url": "Url (a-z,- only)",
+        "picture": "Upload",
+        "image_url": "Logo URL"
+      },
+      "required": "Please fill this input",
+      "hint": "Minimum 10 characters",
+      "min_value": "Minimum 10 characters",
+      "detail": "Description",
+      "menu": "Admin Management"
+    },
+    "dashboard": {
+      "recent": "Recent Bookings"
+    },
+    "booking": {
+      "title": "Booking Management"
+    }
   }
 }

@@ -25,7 +25,7 @@ import { AccordingList } from '../design-system/AccordingList'
 import { useTranslations } from 'next-intl'
 import { IReservation } from '@/types/reservations'
 import { LuMessageCircleWarning } from 'react-icons/lu'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { trimRegexPhone } from '@/utils'
 import { supabase } from '@/utils/supabase/client'
 
@@ -45,6 +45,7 @@ const DealBookingForm: React.FC<IDealBooking> = ({ data: deal }) => {
   const [mounted, setMounted] = useState(false)
 
   const {
+    control,
     register,
     handleSubmit,
     setValue,
@@ -159,25 +160,21 @@ const DealBookingForm: React.FC<IDealBooking> = ({ data: deal }) => {
                 <Fieldset>
                   <Description>{t('deal.form.subtitle')}</Description>
                   <FieldGroup>
-                    <TextField
-                      isRequired
-                      validate={(value) => {
-                        if (value.length < 3) {
-                          return t('error.name')
-                        }
-                        return null
+                    <Controller
+                      name="guest_name"
+                      control={control}
+                      rules={{
+                        required: true,
+                        minLength: 3,
                       }}
-                    >
-                      <Label>{t('form.name')}</Label>
-                      <Input
-                        {...register('guest_name', {
-                          required: true,
-                          minLength: 3,
-                        })}
-                        placeholder={t('deal.form.ex_name')}
-                      />
-                      <FieldError />
-                    </TextField>
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          value={field.value ?? ''}
+                          placeholder={t('deal.form.ex_name')}
+                        />
+                      )}
+                    />
 
                     {!user?.email && (
                       <TextField

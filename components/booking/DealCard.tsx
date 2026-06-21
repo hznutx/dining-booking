@@ -24,7 +24,10 @@ export const DealCard: React.FC<ICard> = ({ data, isReadOnly }) => {
     )
 
   return (
-    <Card className="h-fit w-full max-w-sm">
+    <Card
+      className="h-fit w-full max-w-sm cursor-pointer"
+      onClick={handleClick}
+    >
       <div className="relative h-[140px] w-full shrink-0 overflow-hidden rounded-2xl sm:aspect-video sm:h-auto">
         <img
           alt="Cherries"

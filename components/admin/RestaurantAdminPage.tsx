@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Card, CardBody } from '@heroui/card'
 import { Input, Button, Switch } from '@heroui/react'
+import { AdminHeader } from '../design-system/Typography'
 
 type DaySchedule = {
   day: string
@@ -57,7 +58,6 @@ export default function RestaurantSchedulePage() {
     setClosedRanges(closedRanges.filter((r) => r.id !== id))
   }
 
-  // ---------- save ----------
   const handleSave = () => {
     // validate
     for (const r of closedRanges) {
@@ -73,10 +73,8 @@ export default function RestaurantSchedulePage() {
   }
 
   return (
-    <div className="space-y-6 p-6">
-      <h1 className="text-2xl font-bold">Restaurant Opening Hours</h1>
-
-      {/* ---------- Weekly Schedule ---------- */}
+    <div className="space-y-6">
+      <AdminHeader title="Restaurant Opening Hours" />
       <Card className="rounded-2xl p-6 shadow">
         <CardBody className="space-y-4">
           <h2 className="text-lg font-semibold">Weekly Schedule</h2>
@@ -121,7 +119,6 @@ export default function RestaurantSchedulePage() {
         </CardBody>
       </Card>
 
-      {/* ---------- Save ---------- */}
       <div className="flex justify-end">
         <Button variant="primary" className="rounded-xl" onClick={handleSave}>
           Save All

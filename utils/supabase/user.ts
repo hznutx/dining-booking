@@ -13,7 +13,7 @@ export const getUserBookings = async (userId: string) => {
       deals: data ?? [],
     }
   } catch (error) {
-    console.error('getUserBookings err:', error)
+    console.log('getUserBookings err:', error)
     return {
       count: 0,
       deals: [],

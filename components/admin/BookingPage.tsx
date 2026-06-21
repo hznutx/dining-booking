@@ -8,9 +8,11 @@ import { useAuth } from '@/context/AuthContext'
 import { useReservation } from '@/services/hooks/useReservation'
 import { formatReadableTimeRange } from '@/utils/time-format'
 import { start } from 'repl'
+import { AdminHeader, Title } from '../design-system/Typography'
+import { useTranslations } from 'next-intl'
 
 export default function BookingPage() {
-  const deleteBooking = (id: number) => {}
+  const t = useTranslations()
   const { profile } = useAuth()
   const { allBookings } = useReservation(Number(profile?.restaurant_id))
   const recentBookings = allBookings.map(
@@ -32,7 +34,7 @@ export default function BookingPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Booking Management</h1>
+      <AdminHeader title={t('admin.booking.title')} />
       <Card>
         <CardBody className="p-4">
           <div className="divide-y">

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Input, Button } from '@heroui/react'
 import { Card, CardBody } from '@heroui/card'
+import { AdminHeader } from '../design-system/Typography'
 
 type User = {
   id: number
@@ -39,31 +40,26 @@ export default function UsersPage() {
   const toggleRole = (id: number) => {
     setUsers(
       users.map((u) =>
-        u.id === id
-          ? { ...u, role: u.role === 'admin' ? 'user' : 'admin' }
-          : u
-      )
+        u.id === id ? { ...u, role: u.role === 'admin' ? 'user' : 'admin' } : u,
+      ),
     )
   }
 
   const filtered = users.filter(
     (u) =>
       u.name.toLowerCase().includes(search.toLowerCase()) ||
-      u.email.toLowerCase().includes(search.toLowerCase())
+      u.email.toLowerCase().includes(search.toLowerCase()),
   )
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">User Management</h1>
-
-      {/* Search */}
+      <AdminHeader title="User Management" />
       <Input
         placeholder="Search user..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      {/* Table */}
       <Card>
         <CardBody className="p-4">
           <table className="w-full border-collapse">
@@ -86,20 +82,15 @@ export default function UsersPage() {
                   <td className="p-2">
                     <span
                       className={
-                        u.role === 'admin'
-                          ? 'text-purple-500'
-                          : 'text-gray-500'
+                        u.role === 'admin' ? 'text-purple-500' : 'text-gray-500'
                       }
                     >
                       {u.role}
                     </span>
                   </td>
 
-                  <td className="p-2 text-right space-x-2">
-                    <Button
-                      size="sm"
-                      onClick={() => toggleRole(u.id)}
-                    >
+                  <td className="space-x-2 p-2 text-right">
+                    <Button size="sm" onClick={() => toggleRole(u.id)}>
                       Toggle Role
                     </Button>
 

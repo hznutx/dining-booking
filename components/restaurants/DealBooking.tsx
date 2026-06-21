@@ -21,7 +21,7 @@ export const DealBookingPage: React.FC<IDealBooking> = ({ data: detail }) => {
   const pathname = PAGE.RESTAURANT + `/${detail?.restaurants?.slug}/`
 
   return (
-    <section className="container mx-auto grid max-w-7xl grid-cols-1 gap-6 px-5 pb-10 xl:grid-cols-10">
+    <section className="container mx-auto grid max-w-7xl grid-cols-1 gap-6 px-5 pb-10 xl:grid-cols-10 xl:px-0">
       <div id="blog" className="col-span-1 grid xl:col-span-7">
         <BreadcrumbsPath url={pathname} />
         <div id="header" className="mt-5 items-center space-y-6">
@@ -41,8 +41,9 @@ export const DealBookingPage: React.FC<IDealBooking> = ({ data: detail }) => {
         </div>
         {detail?.description && (
           <div id="content" className="mt-5 space-y-6">
-            <div className="inline-flex w-full items-center justify-between">
+            <div className="mb-5 inline-flex w-full items-center justify-between">
               <Title
+                className="mb-0"
                 label={t('deal.information')}
                 prefixIcon={<BsFillInfoCircleFill size={20} />}
               />
@@ -50,7 +51,7 @@ export const DealBookingPage: React.FC<IDealBooking> = ({ data: detail }) => {
                 <BiHeart />
               </ToggleButton>
             </div>
-            <p>{detail?.description}</p>
+            <div dangerouslySetInnerHTML={{ __html: detail?.description }} />
           </div>
         )}
       </div>

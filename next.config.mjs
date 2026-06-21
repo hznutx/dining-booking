@@ -4,9 +4,11 @@ import createNextIntlPlugin from 'next-intl/plugin'
 const nextConfig = {
   images: {
     remotePatterns: [
-      { protocol: 'https', hostname: 'i.ibb.co' },
-      { protocol: 'https', hostname: 'via.placeholder.com' },
-      { protocol: 'https', hostname: 'th.bing.com' },
+      {
+        protocol: 'https',
+        hostname: '**',
+        pathname: '/**',
+      },
     ],
   },
   pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],

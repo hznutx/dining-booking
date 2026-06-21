@@ -18,18 +18,18 @@ export interface IDeal {
 }
 
 export interface IRestaurant {
-  id: number
-  name: string
-  open: string
-  close: string
-  type: number
-  isActive: boolean
-  location: Location | null
-  brand_logo: string
-  updated_at: string
-  description: string | null
-  slug: string
-  deals: IDeal[]
+  id?: number
+  name?: string
+  open?: string
+  close?: string
+  type?: number
+  isActive?: boolean
+  location?: ILocation | null
+  brand_logo?: string
+  updated_at?: string
+  description?: string | null
+  slug?: string
+  deals?: IDeal[]
 }
 
 export interface ILocation {

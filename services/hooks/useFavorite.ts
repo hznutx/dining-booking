@@ -7,7 +7,7 @@ const useFavorite = () => {
       .from('favorites')
       .insert([{ item_id: itemId }])
 
-    if (error) console.error(error)
+    if (error) console.log(error)
   }
 
   const removeFavorite = async (itemId: string) => {
@@ -16,7 +16,7 @@ const useFavorite = () => {
       .delete()
       .eq('item_id', itemId)
 
-    if (error) console.error(error)
+    if (error) console.log(error)
   }
 
   const checkFavoriteSinglePage = async (itemId: string) => {

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
+import { EUserRole } from '@/enum'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -22,12 +23,15 @@ export async function GET(request: Request) {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role')
+    .select('*')
     .eq('id', user.id)
     .single()
 
-  if (profile?.role === 'ADMIN') {
-    return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+  if (profile?.role === EUserRole.ADMIN) {
+    const destination = profile?.restaurant
+      ? '/admin/dashboard'
+      : '/admin/setting'
+    return NextResponse.redirect(new URL(destination, request.url))
   }
 
   return NextResponse.redirect(new URL('/', request.url))

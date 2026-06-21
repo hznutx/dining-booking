@@ -92,7 +92,7 @@ export const formatReadableTimeRange = (
 
     const dateFormatter = new Intl.DateTimeFormat(locale, {
       day: 'numeric',
-      month: 'numeric',
+      month: 'short',
       year: 'numeric',
     })
 
@@ -103,9 +103,11 @@ export const formatReadableTimeRange = (
     })
 
     return {
-      date: `${dateFormatter.format(startDate)}`,
-      timeStart: `${timeFormatter.format(startDate)}`,
-      timeEnd: `${timeFormatter.format(endDate)}`,
+      startDate,
+      endDate,
+      date: dateFormatter.format(startDate),
+      timeStart: timeFormatter.format(startDate),
+      timeEnd: timeFormatter.format(endDate),
       timeRange: `${timeFormatter.format(
         startDate,
       )} - ${timeFormatter.format(endDate)}`,

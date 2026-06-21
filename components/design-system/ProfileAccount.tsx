@@ -45,8 +45,12 @@ export const ProfileMenu: React.FC<IProfileMenu> = ({ menu, user }) => {
       </div>
       <div className="mb-4 flex flex-col space-y-2">
         {menu.map(({ label, href, propData }, i) => (
-          <div key={i} className="inline-flex items-center justify-between">
-            <Link href={href}>{label}</Link>
+          <Link
+            href={href}
+            key={i}
+            className="inline-flex items-center justify-between"
+          >
+            {label}
             {i === 0 && Number(propData) > 0 ? (
               <div className="bg-danger aspect-square w-4 rounded-full p-px text-center text-[10px] text-white">
                 {Number(propData) > 100 ? '100+' : Number(propData)}
@@ -54,7 +58,7 @@ export const ProfileMenu: React.FC<IProfileMenu> = ({ menu, user }) => {
             ) : (
               <></>
             )}
-          </div>
+          </Link>
         ))}
       </div>
       <LogoutButton />
@@ -89,7 +93,7 @@ export const LogoutButton = ({
     return (
       <div className={clsx(className)}>
         <Tooltip delay={0}>
-          <Button isIconOnly variant="tertiary" onPress={handleLogOut}>
+          <Button isIconOnly variant="ghost" onPress={handleLogOut}>
             <LuLogOut onClick={handleLogOut} size={24} />
           </Button>
           <Tooltip.Content>
