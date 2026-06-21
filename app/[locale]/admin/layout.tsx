@@ -1,33 +1,15 @@
 'use client'
 import { AdminGuard } from '@/components/auth/AdminGuard'
 import { EAdminMenu } from '@/enum'
-import { LogoBrand } from '@/components/layout/navbar'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { LogoutButton } from '@/components/design-system/ProfileAccount'
-import { Card, Chip } from '@heroui/react'
 import clsx from 'clsx'
 import { MenuButton } from '@/components/admin/MenuButton'
 import { useAuth } from '@/context/AuthContext'
 import { NavbarAdmin } from '@/components/admin/NavbarAdmin'
 import LanguageSwitcher from '@/components/i18n/LanguageSwitcher'
 import { usePathname } from 'next/navigation'
-
-export const BrandTag = ({ className }: { className?: string }) => {
-  return (
-    <div
-      className={clsx(className, 'flex w-full items-center justify-between')}
-    >
-      <div className="inline-flex items-center gap-2">
-        <LogoBrand />
-        <Chip size="sm">Admin </Chip>
-      </div>
-      <div className="mr-4 inline-flex items-center gap-4 xl:hidden">
-        <ThemeSwitch />
-        <LanguageSwitcher />
-      </div>
-    </div>
-  )
-}
+import { BrandTag } from '@/components/design-system/BrandHeader'
 
 export default function AdminLayout({ children }: { children: any }) {
   const { profile } = useAuth()

@@ -1,4 +1,26 @@
+import clsx from 'clsx'
+import { LogoBrand } from '@/components/layout/navbar'
+import { Card, Chip } from '@heroui/react'
 import { IRestaurant } from '@/types/deal'
+import { ThemeSwitch } from '../theme-switch'
+import LanguageSwitcher from '../i18n/LanguageSwitcher'
+
+export const BrandTag = ({ className }: { className?: string }) => {
+  return (
+    <div
+      className={clsx(className, 'flex w-full items-center justify-between')}
+    >
+      <div className="inline-flex items-center gap-2">
+        <LogoBrand />
+        <Chip size="sm">Admin </Chip>
+      </div>
+      <div className="mr-4 inline-flex items-center gap-4 xl:hidden">
+        <ThemeSwitch />
+        <LanguageSwitcher />
+      </div>
+    </div>
+  )
+}
 
 const BrandHeader = ({ detail }: { detail?: IRestaurant }) => {
   return (

@@ -19,7 +19,7 @@ export interface IDeal {
 
 export interface IRestaurant {
   id?: number
-  name?: string
+  name: string
   open?: string
   close?: string
   type?: number

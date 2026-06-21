@@ -1,11 +1,11 @@
 'use client'
-import { BrandTag } from '@/app/[locale]/admin/layout'
 import { AdminMobileMenu, MenuButton } from './MenuButton'
 import { CloseButton } from '@heroui/react'
 import { useState } from 'react'
 import { MenuIcon } from '../icons'
 import { LogoutButton } from '../design-system/ProfileAccount'
 import { EAdminMenu } from '@/enum'
+import { BrandTag } from '../design-system/BrandHeader'
 
 export const NavbarAdmin = ({ menu }: { menu?: string[] }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
